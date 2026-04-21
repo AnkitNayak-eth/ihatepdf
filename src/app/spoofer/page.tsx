@@ -51,27 +51,40 @@ export default function SpooferPage() {
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
               <ShieldAlert className="text-brand mb-4 h-8 w-8" />
               <h3 className="text-xl font-bold text-white mb-2">The Danger of Defaults</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-6">
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
                 When you export a PDF, your computer secretly records your OS version, your user account name, and the exact millisecond of creation. Most people "Print to PDF" and assume the file is clean. It's not.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                     <div className="h-5 w-5 rounded bg-brand/20 flex items-center justify-center text-brand text-[10px] font-black mt-0.5">01</div>
-                    <p className="text-zinc-400 text-xs">Portals flag uploads that have creation dates *after* the deadline.</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">Portals flag uploads that have creation dates *after* the deadline.</p>
                 </div>
                 <div className="flex items-start gap-3">
                     <div className="h-5 w-5 rounded bg-brand/20 flex items-center justify-center text-brand text-[10px] font-black mt-0.5">02</div>
-                    <p className="text-zinc-400 text-xs">IT departments can track the exact machine used via Producer tags.</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">IT departments can track the exact machine used via Producer tags.</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-brand font-black text-white flex items-center justify-between group cursor-help overflow-hidden relative">
-               <div className="relative z-10">
-                    <p className="text-[10px] opacity-70 uppercase tracking-widest mb-1">Status Protocol</p>
-                    <p className="text-2xl italic">100% Plausible</p>
-               </div>
-               <Cpu className="h-16 w-16 opacity-20 absolute -right-4 -bottom-4 rotate-12 group-hover:rotate-45 transition-transform duration-700" />
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 mb-6">
+                    <Cpu className="text-brand h-6 w-6" />
+                    <h3 className="text-xl font-bold text-white tracking-widest uppercase italic">Under the Hood</h3>
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">XMP Stream Rewriting</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            The spoofer directly modifies the PDF's internal XMP metadata streams — the same fields used by Adobe, forensic tools, and compliance scanners to verify document authenticity.
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">Fully Local Processing</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            All metadata manipulation happens in your browser using pdf-lib. Your document is never uploaded anywhere — it's loaded into memory, rewritten, and returned as a fresh download.
+                        </p>
+                    </div>
+                </div>
             </div>
           </div>
         </div>

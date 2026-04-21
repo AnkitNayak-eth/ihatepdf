@@ -1,7 +1,7 @@
 import ShapeGrid from '@/components/ShapeGrid';
 import Steganography from '@/components/Steganography';
 import Link from 'next/link';
-import { ArrowLeft, ShieldAlert, AlertCircle, Lock, Unlock, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, ShieldAlert, AlertCircle, Lock, Unlock, Eye, EyeOff, Cpu } from 'lucide-react';
 
 export default function SteganographyPage() {
   return (
@@ -54,7 +54,7 @@ export default function SteganographyPage() {
               </div>
               <AlertCircle className="text-brand mb-4 h-8 w-8" />
               <h3 className="text-xl font-bold text-white mb-2">How It Works</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-6">
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
                 Messages are injected as invisible structural data inside the PDF. The file opens and renders identically — no visual difference whatsoever.
               </p>
 
@@ -63,32 +63,45 @@ export default function SteganographyPage() {
                   <Lock className="text-brand shrink-0" size={18} />
                   <div>
                     <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Encrypted Mode</p>
-                    <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Uses AES-256-GCM with PBKDF2 key derivation (100k iterations). Military-grade encryption — without the password, the message is mathematically unrecoverable.</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">Uses AES-256-GCM with PBKDF2 key derivation (100k iterations). Military-grade encryption — without the password, the message is mathematically unrecoverable.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
                   <Unlock className="text-brand shrink-0" size={18} />
                   <div>
                     <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Open Mode</p>
-                    <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Base64 encoded without encryption. Anyone with this tool can extract the message. Best for non-sensitive dead drops.</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">Base64 encoded without encryption. Anyone with this tool can extract the message. Best for non-sensitive dead drops.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
                   <Eye className="text-brand shrink-0" size={18} />
                   <div>
                     <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Extraction</p>
-                    <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Switch to the Extract tab and drop a suspect PDF. The scanner will locate hidden payloads and attempt decryption.</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">Switch to the Extract tab and drop a suspect PDF. The scanner will locate hidden payloads and attempt decryption.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-10 rounded-3xl bg-gradient-to-br from-brand to-red-950/80 font-black text-white flex items-center justify-between group overflow-hidden relative border border-white/10 shadow-[0_20px_40px_rgba(230,25,25,0.2)]">
-              <div className="relative z-10">
-                <p className="text-[10px] opacity-70 uppercase tracking-widest mb-1">Encryption Standard</p>
-                <p className="text-3xl italic">AES-256-GCM</p>
-              </div>
-              <Lock className="h-20 w-20 opacity-20 absolute -right-6 -bottom-6 rotate-12 group-hover:-rotate-12 transition-transform duration-700" />
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 mb-6">
+                    <Cpu className="text-brand h-6 w-6" />
+                    <h3 className="text-xl font-bold text-white tracking-widest uppercase italic">Under the Hood</h3>
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">PDF Object Injection</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            Your secret message is encoded and injected as a custom metadata key inside the PDF's document catalog. It's invisible to all standard readers and viewers.
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">AES-256-GCM Encryption</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            When a password is set, the message is encrypted using the Web Crypto API with PBKDF2 key derivation (100k iterations) before embedding. Decryption requires the exact same password.
+                        </p>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
