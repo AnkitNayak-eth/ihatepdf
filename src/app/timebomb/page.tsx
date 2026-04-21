@@ -79,29 +79,8 @@ export default function TimeBombPage() {
         </div>
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
-          <div className="xl:col-span-2 space-y-12">
+          <div className="xl:col-span-2">
             <PDCTimeBomb intensity={intensity} setIntensity={setIntensity} />
-            
-            <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
-                <div className="flex items-center gap-3 mb-6">
-                    <Cpu className="text-brand h-6 w-6" />
-                    <h3 className="text-xl font-bold text-white tracking-widest uppercase italic">Under the Hood</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Acrobat JS Injection</p>
-                        <p className="text-zinc-500 text-xs leading-relaxed">
-                            The Time-Bomb utilizes the ISO-standardized <code>/JS</code> dictionary to inject script objects into the PDF's <code>Catalogs</code> object. This is a non-destructive process that preserves the original document's layout while adding a hidden logic layer.
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Client-Side Verification</p>
-                        <p className="text-zinc-500 text-xs leading-relaxed">
-                            All "Temporal Sabotage" happens locally on your machine. Your PDF is loaded into a WASM-powered environment, the JavaScript payload is injected, and the resulting "Armed" file is returned immediately.
-                        </p>
-                    </div>
-                </div>
-            </div>
           </div>
           
           <div className="space-y-6">
@@ -128,12 +107,25 @@ export default function TimeBombPage() {
               </div>
             </div>
 
-            <div className="p-10 rounded-3xl bg-gradient-to-br from-brand to-red-950/80 font-black text-white flex items-center justify-between group overflow-hidden relative border border-white/10 shadow-[0_20px_40px_rgba(230,25,25,0.2)]">
-               <div className="relative z-10 transition-transform group-hover:translate-x-2 duration-500 cursor-help">
-                    <p className="text-[10px] opacity-70 uppercase tracking-widest mb-1">Timing Protocol</p>
-                    <p className="text-3xl italic">ARMED & SYNCED</p>
-               </div>
-               <Clock className="h-20 w-20 opacity-20 absolute -right-6 -bottom-6 rotate-12 group-hover:-rotate-12 transition-transform duration-700" />
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 mb-6">
+                    <Cpu className="text-brand h-6 w-6" />
+                    <h3 className="text-xl font-bold text-white tracking-widest uppercase italic">Under the Hood</h3>
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">Acrobat JS Injection</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            The Time-Bomb utilizes the ISO-standardized <code>/JS</code> dictionary to inject script objects into the PDF's <code>Catalogs</code> object. This preserves the original document's layout while adding a hidden logic layer.
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">Client-Side Processing</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            All processing happens locally on your machine. Your PDF is loaded into memory, the JavaScript payload is injected, and the resulting file is returned immediately. Nothing is uploaded.
+                        </p>
+                    </div>
+                </div>
             </div>
           </div>
         </div>

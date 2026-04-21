@@ -3,7 +3,7 @@
 import ShapeGrid from '@/components/ShapeGrid';
 import PDFCorruptor, { type Strategy } from '@/components/PDFCorruptor';
 import Link from 'next/link';
-import { ArrowLeft, Hammer, ShieldX, AlertCircle, FileWarning, Zap, Crosshair } from 'lucide-react';
+import { ArrowLeft, Hammer, ShieldX, AlertCircle, FileWarning, Zap, Crosshair, Cpu } from 'lucide-react';
 import { useState } from 'react';
 
 const STRATEGY_DETAILS = {
@@ -107,12 +107,25 @@ export default function CorruptorPage() {
               </div>
             </div>
 
-            <div className="p-10 rounded-3xl bg-gradient-to-br from-brand to-red-950/80 font-black text-white flex items-center justify-between group overflow-hidden relative border border-white/10 shadow-[0_20px_40px_rgba(230,25,25,0.2)]">
-               <div className="relative z-10">
-                    <p className="text-[10px] opacity-70 uppercase tracking-widest mb-1">Destruction Status</p>
-                    <p className="text-3xl italic">TOTAL NULL</p>
-               </div>
-               <Hammer className="h-20 w-20 opacity-20 absolute -right-6 -bottom-6 rotate-12 group-hover:-rotate-12 transition-transform duration-700" />
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 mb-6">
+                    <Cpu className="text-brand h-6 w-6" />
+                    <h3 className="text-xl font-bold text-white tracking-widest uppercase italic">Under the Hood</h3>
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">Client-Side Only</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            All corruption happens entirely in your browser. Your file never touches a server — it's loaded into memory, mangled locally, and returned as a brand new download.
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs font-black text-white uppercase mb-2">Binary-Level Editing</p>
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                            The corruptor operates directly on the raw byte stream of the PDF. Depending on the strategy, it targets headers, cross-reference tables, or injects entropy across the entire file.
+                        </p>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
