@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FileDown, RefreshCw, Terminal, Type, Image, EyeOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type Mode = 'IMAGE_BURN' | 'UNICODE_POISON';
+export type Mode = 'IMAGE_BURN' | 'UNICODE_POISON';
 
 const MODES = [
   {
@@ -54,12 +54,20 @@ async function initPdfJs() {
   return pdfjsLib;
 }
 
-export default function CopyKiller() {
+interface CopyKillerProps {
+  mode?: Mode;
+  setMode?: (mode: Mode) => void;
+}
+
+export default function CopyKiller({ mode: extMode, setMode: extSetMode }: CopyKillerProps = {}) {
+  const [intMode, setIntMode] = useState<Mode>('IMAGE_BURN');
+  const mode = extMode || intMode;
+  const setMode = extSetMode || setIntMode;
+
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode>('IMAGE_BURN');
   const [intensity, setIntensity] = useState(85);
   const [quality, setQuality] = useState(150);
   const [logs, setLogs] = useState<string[]>([]);

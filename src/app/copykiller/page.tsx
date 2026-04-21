@@ -1,9 +1,36 @@
+'use client';
+
 import ShapeGrid from '@/components/ShapeGrid';
-import CopyKiller from '@/components/CopyKiller';
+import CopyKiller, { type Mode } from '@/components/CopyKiller';
 import Link from 'next/link';
 import { ArrowLeft, EyeOff, ShieldAlert, AlertCircle, FileWarning, Type, Image } from 'lucide-react';
+import { useState } from 'react';
+
+const KILLER_DETAILS = {
+  'IMAGE_BURN': {
+    title: 'Image Burn',
+    description: 'Turns all text into flat, unselectable pictures.',
+    icon: Image,
+    features: [
+      { id: 'Best Used For', text: 'Absolute copy protection. Zero actual text remains, making traditional OCR and copy tools useless.' },
+      { id: 'How It Works', text: 'The document is cleanly flattened. They can look, but they cannot touch or extract the letters.' }
+    ]
+  },
+  'UNICODE_POISON': {
+    title: 'Unicode Poison',
+    description: 'Swaps normal letters with visually identical characters from other languages.',
+    icon: Type,
+    features: [
+      { id: 'How It Works', text: 'It looks perfectly normal to read on-screen, but copies and pastes as completely unintelligible garbage.' },
+      { id: 'The Impact', text: 'Maximum deception. Victims won\'t realize the text is protected until they try to paste it.' }
+    ]
+  }
+};
 
 export default function CopyKillerPage() {
+  const [mode, setMode] = useState<Mode>('IMAGE_BURN');
+  const details = KILLER_DETAILS[mode];
+  const Icon = details.icon;
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -44,35 +71,30 @@ export default function CopyKillerPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <CopyKiller />
+            <CopyKiller mode={mode} setMode={setMode} />
           </div>
 
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <EyeOff size={80} />
+                <Icon size={80} />
               </div>
               <AlertCircle className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">Two Kill Methods</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                Choose between total text annihilation or subtle unicode poisoning — each serves a different purpose in your document warfare strategy.
+              <h3 className="text-xl font-bold text-white mb-2">{details.title}</h3>
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
+                {details.description}
               </p>
 
               <div className="space-y-5">
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
-                  <Image className="text-brand shrink-0" size={18} />
-                  <div>
-                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Method 01 — Image Burn</p>
-                    <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Renders every page as a flat raster image. Text becomes pixels — completely unselectable, unsearchable, and immune to OCR workarounds.</p>
+                {details.features.map((feature, i) => (
+                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
+                      <FileWarning className="text-brand shrink-0" size={18} />
+                      <div>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">{feature.id}</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">{feature.text}</p>
+                      </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
-                  <Type className="text-brand shrink-0" size={18} />
-                  <div>
-                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Method 02 — Unicode Poison</p>
-                    <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Swaps characters with visually identical Cyrillic/Greek homoglyphs. The victim won&apos;t notice until they try to paste it somewhere. Maximum deception.</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
