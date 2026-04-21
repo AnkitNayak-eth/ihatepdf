@@ -1,9 +1,45 @@
+'use client';
+
 import ShapeGrid from '@/components/ShapeGrid';
-import PDFCorruptor from '@/components/PDFCorruptor';
+import PDFCorruptor, { type Strategy } from '@/components/PDFCorruptor';
 import Link from 'next/link';
-import { ArrowLeft, Hammer, ShieldX, AlertCircle, FileWarning } from 'lucide-react';
+import { ArrowLeft, Hammer, ShieldX, AlertCircle, FileWarning, Zap, Crosshair } from 'lucide-react';
+import { useState } from 'react';
+
+const STRATEGY_DETAILS = {
+  'HEADER': {
+    title: 'Header Saboteur',
+    description: 'Quickly scrambles the beginning of the file.',
+    icon: Zap,
+    features: [
+      { id: 'Best Used For', text: 'Making it look like your internet cut out or the file upload was unexpectedly interrupted.' },
+      { id: 'Good To Know', text: 'This is the fastest method. The PDF will simply show up as an invalid file right away.' }
+    ]
+  },
+  'ENTROPY': {
+    title: 'Entropy Injection',
+    description: 'Injects random scrambled data throughout the document.',
+    icon: ShieldX,
+    features: [
+      { id: 'The Impact', text: 'Extremely difficult to fix. The contents inside are completely ruined and rendered completely unreadable.' },
+      { id: 'Crucial Warning', text: 'Always keep a backup of your original document! This process cannot be undone.' }
+    ]
+  },
+  'XREF': {
+    title: 'XREF Nullification',
+    description: 'Deletes the invisible map that readers use to show the PDF pages.',
+    icon: Crosshair,
+    features: [
+      { id: 'How It Works', text: 'The file looks completely normal on the outside, but it will immediately crash or error when someone tries to open it.' },
+      { id: 'The Result', text: 'Destroys the internal structure, deliberately breaking things like the table of contents and page tracking.' }
+    ]
+  }
+};
 
 export default function CorruptorPage() {
+  const [strategy, setStrategy] = useState<Strategy>('ENTROPY');
+  const details = STRATEGY_DETAILS[strategy];
+  const Icon = details.icon;
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -44,35 +80,30 @@ export default function CorruptorPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <PDFCorruptor />
+            <PDFCorruptor strategy={strategy} setStrategy={setStrategy} />
           </div>
           
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <ShieldX size={80} />
+                <Icon size={80} />
               </div>
               <AlertCircle className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">Plausible Deniability</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                A corrupted file is the ultimate "Time Weapon." When a portal accepts a file but the recipient can't open it, you buy hours or even days while "troubleshooting" the issue. It shifts the blame from you to the software.
+              <h3 className="text-xl font-bold text-white mb-2">{details.title}</h3>
+              <p className="text-zinc-300 text-sm leading-relaxed mb-6">
+                {details.description}
               </p>
               
               <div className="space-y-5">
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
-                    <FileWarning className="text-brand shrink-0" size={18} />
-                    <div>
-                        <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Protocol 01</p>
-                        <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Corruption strategy "HEADER" is best for looking like an interrupted upload.</p>
-                    </div>
-                </div>
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
-                    <FileWarning className="text-brand shrink-0" size={18} />
-                    <div>
-                        <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Protocol 02</p>
-                        <p className="text-zinc-500 text-[11px] leading-tight text-white/60">Always keep an original backup. This process is 100% irreversible.</p>
-                    </div>
-                </div>
+                {details.features.map((feature, i) => (
+                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
+                      <FileWarning className="text-brand shrink-0" size={18} />
+                      <div>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">{feature.id}</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">{feature.text}</p>
+                      </div>
+                  </div>
+                ))}
               </div>
             </div>
 

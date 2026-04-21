@@ -6,7 +6,7 @@ import { FileUp, Clock, AlertTriangle, RefreshCw, Zap, ShieldAlert, Timer, Bomb,
 import { cn } from '@/lib/utils';
 import { PDFDocument } from 'pdf-lib';
 
-type BombIntensity = 'ALERT' | 'LOCKDOWN' | 'SCRAMBLE';
+export type BombIntensity = 'ALERT' | 'LOCKDOWN' | 'SCRAMBLE';
 
 const INTENSITIES = [
   { id: 'ALERT', label: 'Ghost Alert', desc: 'Menacing popup notification.', icon: <Timer size={14} />, script: (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert({ cMsg: "ACCESS EXPIRED: This document temporal footprint has reached its limit. Access is now restricted.", cTitle: "iHatePDF: TEMPORAL SABOTAGE", nIcon: 0, nType: 0 }); }` },
@@ -14,12 +14,20 @@ const INTENSITIES = [
   { id: 'SCRAMBLE', label: 'The Warning', desc: 'Informative expiry warning.', icon: <AlertTriangle size={14} />, script: (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert("WARNING: This document is stale. Information contained within is no longer valid."); }` },
 ] as const;
 
-export default function PDCTimeBomb() {
+interface PDCTimeBombProps {
+  intensity?: BombIntensity;
+  setIntensity?: (intensity: BombIntensity) => void;
+}
+
+export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: extSetIntensity }: PDCTimeBombProps = {}) {
+  const [intIntensity, setIntIntensity] = useState<BombIntensity>('ALERT');
+  const intensity = extIntensity || intIntensity;
+  const setIntensity = extSetIntensity || setIntIntensity;
+
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [arming, setArming] = useState(false);
   const [armedUrl, setArmedUrl] = useState<string | null>(null);
-  const [intensity, setIntensity] = useState<BombIntensity>('ALERT');
   const [expiryDate, setExpiryDate] = useState(new Date(Date.now() + 86400000).toISOString().slice(0, 16)); // Tomorrow
   
   const fileInputRef = useRef<HTMLInputElement>(null);

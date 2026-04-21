@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FileUp, Maximize2, RefreshCw, Layers, Zap, ShieldCheck, Database, LayoutGrid, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type InflationMode = 'SILENT' | 'METADATA' | 'STREAM';
+export type InflationMode = 'SILENT' | 'METADATA' | 'STREAM';
 
 const INFLATION_PRESETS = [
   { label: '50MB', value: 50 },
@@ -21,13 +21,21 @@ const MODES = [
   { id: 'STREAM', label: 'Stream Pad', desc: 'Internal object padding.', icon: <Box size={14} />, help: 'Injects padding inside PDF data objects.' },
 ] as const;
 
-export default function PayloadInflator() {
+interface PayloadInflatorProps {
+  mode?: InflationMode;
+  setMode?: (mode: InflationMode) => void;
+}
+
+export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: PayloadInflatorProps = {}) {
+  const [intMode, setIntMode] = useState<InflationMode>('SILENT');
+  const mode = extMode || intMode;
+  const setMode = extSetMode || setIntMode;
+
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [inflating, setInflating] = useState(false);
   const [inflatedUrl, setInflatedUrl] = useState<string | null>(null);
   const [targetSizeMB, setTargetSizeMB] = useState(100);
-  const [mode, setMode] = useState<InflationMode>('SILENT');
   const [progress, setProgress] = useState(0);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
