@@ -69,7 +69,7 @@ export default function TimeBombPage() {
                 <div className="bg-brand/20 p-2 rounded-lg text-brand">
                   <Bomb size={20} />
                 </div>
-                <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">PDF TIME-BOMB</h1>
+                <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">PDF SELF DESTRUCT</h1>
               </div>
               <p className="text-zinc-500 text-lg">
                 Inject temporal self-destruction protocols into document DNA.
@@ -116,7 +116,7 @@ export default function TimeBombPage() {
                     <div>
                         <p className="text-xs font-black text-white uppercase mb-2">Acrobat JS Injection</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            The Time-Bomb utilizes the ISO-standardized <code>/JS</code> dictionary to inject script objects into the PDF's <code>Catalogs</code> object. This preserves the original document's layout while adding a hidden logic layer.
+                            The Self Destruct utilizes the ISO-standardized <code>/JS</code> dictionary to inject script objects into the PDF's <code>Catalogs</code> object. This preserves the original document's layout while adding a hidden logic layer.
                         </p>
                     </div>
                     <div>

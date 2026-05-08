@@ -2,7 +2,7 @@ import ShapeGrid from '@/components/ShapeGrid';
 import { HoverCard } from '@/components/HoverCard';
 import LaserFlow from '@/components/LaserFlow';
 import FuzzyText from '@/components/FuzzyText';
-import { FileWarning, Maximize2, ShieldAlert, Cpu, Briefcase, Globe, MessageSquare, Mail, Fingerprint, Clock, Bomb, EyeOff } from 'lucide-react';
+import { FileWarning, Maximize2, ShieldAlert, Cpu, Briefcase, Globe, MessageSquare, Mail, Fingerprint, Clock, Bomb, EyeOff, Shuffle, Type } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -184,7 +184,7 @@ export default function Home() {
 
               <Link href="/timebomb" className="flex h-full block outline-none">
                 <HoverCard 
-                  title="The Time-Bomb" 
+                  title="PDF Self Destruct" 
                   description="Sets a self-destruct date. Document becomes unreadable or displays a warning after the deadline."
                   icon={<Clock size={28} />}
                   isActive={true}
@@ -214,6 +214,24 @@ export default function Home() {
                   title="Secret Embedder"
                   description="Hide encrypted messages inside any PDF. Extract them with a password — or without."
                   icon={<ShieldAlert size={28} />}
+                  isActive={true}
+                />
+              </Link>
+
+              <Link href="/shuffler" className="flex h-full block outline-none">
+                <HoverCard
+                  title="The Page Shuffler"
+                  description="Completely randomize the order of the pages. Make a perfectly structured report into an incomprehensible puzzle."
+                  icon={<Shuffle size={28} />}
+                  isActive={true}
+                />
+              </Link>
+
+              <Link href="/dyslexia" className="flex h-full block outline-none">
+                <HoverCard
+                  title="Dyslexia Inducer"
+                  description="Subtly swap adjacent letters in words throughout the document. Induce madness in your readers."
+                  icon={<Type size={28} />}
                   isActive={true}
                 />
               </Link>

@@ -29,11 +29,13 @@ export default function Footer() {
             <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Arsenal</h4>
             <ul className="grid grid-cols-2 gap-y-4 gap-x-12 text-sm text-zinc-500">
               <li><Link href="/corruptor" className="hover:text-brand transition-colors">PDF Corruptor</Link></li>
-              <li><Link href="/timebomb" className="hover:text-brand transition-colors">PDF Time-Bomb</Link></li>
+              <li><Link href="/timebomb" className="hover:text-brand transition-colors">PDF Self Destruct</Link></li>
               <li><Link href="/inflator" className="hover:text-brand transition-colors">Payload Inflator</Link></li>
               <li><Link href="/copykiller" className="hover:text-brand transition-colors">Copy Killer</Link></li>
               <li><Link href="/spoofer" className="hover:text-brand transition-colors">Metadata Spoofer</Link></li>
               <li><Link href="/steganography" className="hover:text-brand transition-colors">Secret Embedder</Link></li>
+              <li><Link href="/shuffler" className="hover:text-brand transition-colors">The Page Shuffler</Link></li>
+              <li><Link href="/dyslexia" className="hover:text-brand transition-colors">Dyslexia Inducer</Link></li>
             </ul>
           </div>
 

@@ -80,7 +80,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
           <motion.div key="editor" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8 relative z-10">
             <div className="text-center">
               <h2 className="text-3xl font-black text-white mb-2 flex items-center justify-center gap-3 italic">
-                <Bomb className="text-brand w-8 h-8" /> PDF TIME-BOMB
+                <Bomb className="text-brand w-8 h-8" /> PDF SELF DESTRUCT
               </h2>
               <p className="text-zinc-500">Inject temporal self-destruction protocols into document DNA.</p>
             </div>
@@ -163,7 +163,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
                 {arming ? (
                   <>
                     <RefreshCw className="h-6 w-6 animate-spin" />
-                    Arming Time-Bomb...
+                    Arming Self-Destruct...
                   </>
                 ) : (
                   <>
