@@ -83,19 +83,24 @@ export default function PDFScrollChoker() {
         const intensity = 75;
 
         // 1. Vector Spaghetti
-        const vectorCount = Math.floor(10000 * (intensity / 100));
-        let path = `M ${Math.random() * width} ${Math.random() * height} `;
-        for (let i = 0; i < vectorCount; i++) {
-          path += `C ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height} `;
+        // Splitting into smaller paths to avoid exceeding viewer limits
+        const pathCount = Math.floor(150 * (intensity / 100));
+        const curvesPerPath = 50;
+        for (let p = 0; p < pathCount; p++) {
+          let path = `M ${Math.random() * width} ${Math.random() * height} `;
+          for (let i = 0; i < curvesPerPath; i++) {
+            path += `C ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height} `;
+          }
+          page.drawSvgPath(path, {
+            borderColor: rgb(0.5, 0.5, 0.5),
+            borderWidth: 2,
+            opacity: 0.01
+          });
         }
-        page.drawSvgPath(path, {
-          borderColor: rgb(0.5, 0.5, 0.5),
-          borderWidth: 2,
-          opacity: 0.01
-        });
 
         // 2. Text Swamp
-        const textCount = Math.floor(8000 * (intensity / 100));
+        // Reduced count to prevent total viewer crash while maintaining lag
+        const textCount = Math.floor(1500 * (intensity / 100));
         for(let i = 0; i < textCount; i++) {
           page.drawText(FILLER_SENTENCES[Math.floor(Math.random() * FILLER_SENTENCES.length)], {
             x: Math.random() * width,
