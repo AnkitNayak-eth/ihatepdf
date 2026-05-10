@@ -1,11 +1,11 @@
 'use client';
 
 import ShapeGrid from '@/components/ShapeGrid';
-import PDFCorruptor from '@/components/PDFCorruptor';
+import PDFScrollChoker from '@/components/PDFScrollChoker';
 import Link from 'next/link';
-import { ArrowLeft, Hammer, ShieldX, Cpu, FileWarning } from 'lucide-react';
+import { ArrowLeft, MousePointerClick, ShieldAlert, FileWarning, Activity, Cpu } from 'lucide-react';
 
-export default function CorruptorPage() {
+export default function ScrollChokerPage() {
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -33,12 +33,12 @@ export default function CorruptorPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <div className="bg-brand/20 p-2 rounded-lg text-brand">
-                  <Hammer size={20} />
+                  <MousePointerClick size={20} />
                 </div>
-                <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">PDF CORRUPTOR</h1>
+                <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">LAGGY PDF</h1>
               </div>
               <p className="text-zinc-500 text-lg">
-                Make any PDF completely unreadable and impossible to open.
+                Make any PDF incredibly slow and frustrating to scroll through.
               </p>
             </div>
           </div>
@@ -46,33 +46,33 @@ export default function CorruptorPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <PDFCorruptor />
+            <PDFScrollChoker />
           </div>
           
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <ShieldX size={80} />
+                <Activity size={80} />
               </div>
-              <ShieldX className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">Total Annihilation</h3>
+              <ShieldAlert className="text-brand mb-4 h-8 w-8" />
+              <h3 className="text-xl font-bold text-white mb-2">The Lag Engine</h3>
               <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-                This tool systematically destroys the document structure. It's not just a renamed file — it's a binary-level massacre that triggers catastrophic failures in any PDF reader.
+                This tool turns a smooth reading experience into a stuttering nightmare. By injecting thousands of invisible rendering obstacles, it forces PDF viewers to work overtime on every scroll and zoom.
               </p>
               
               <div className="space-y-5">
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
                   <FileWarning className="text-brand shrink-0" size={18} />
                   <div>
-                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">The Impact</p>
-                    <p className="text-zinc-300 text-xs leading-relaxed">The file will look completely normal on the outside, but will immediately crash or error when anyone tries to open it.</p>
+                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">User Frustration</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">The heavy rendering load makes careful reading or searching almost impossible for the recipient.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
                   <FileWarning className="text-brand shrink-0" size={18} />
                   <div>
-                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Plausible Deniability</p>
-                    <p className="text-zinc-300 text-xs leading-relaxed">It produces the exact error signature of a "corrupted download" or "interrupted transfer."</p>
+                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Invisible Sabotage</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">All injected data is invisible. The document looks perfect, it just performs terribly.</p>
                   </div>
                 </div>
               </div>
@@ -85,15 +85,15 @@ export default function CorruptorPage() {
                 </div>
                 <div className="space-y-6">
                     <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Header Mashing</p>
+                        <p className="text-xs font-black text-white uppercase mb-2">Vector Chaos</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            Overwrites the magic byte signatures that identify the file as a PDF, causing instant rejection by all software.
+                            Injects complex SVG paths with thousands of points that are mathematically expensive for browsers to render.
                         </p>
                     </div>
                     <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Entropy Injection</p>
+                        <p className="text-xs font-black text-white uppercase mb-2">Text Overload</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            Randomly mutates the raw byte stream, ensuring the internal cross-reference tables and content streams are permanently unusable.
+                            Adds hidden text layers with randomized rotations to defeat subpixel caching and force re-renders on every interaction.
                         </p>
                     </div>
                 </div>

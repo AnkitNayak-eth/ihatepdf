@@ -36,7 +36,7 @@ export default function SpooferPage() {
                 <h1 className="text-4xl font-black text-white tracking-tight text-white uppercase italic">Metadata Spoofer</h1>
               </div>
               <p className="text-zinc-500 text-lg">
-                Manipulate internal XMP streams to rewrite document history.
+                Edit the hidden properties of your PDF — change the author, creation date, and software fingerprint.
               </p>
             </div>
           </div>

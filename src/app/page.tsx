@@ -2,7 +2,7 @@ import ShapeGrid from '@/components/ShapeGrid';
 import { HoverCard } from '@/components/HoverCard';
 import LaserFlow from '@/components/LaserFlow';
 import FuzzyText from '@/components/FuzzyText';
-import { FileWarning, Maximize2, ShieldAlert, Cpu, Briefcase, Globe, MessageSquare, Mail, Fingerprint, Clock, Bomb, EyeOff, Shuffle, Type } from 'lucide-react';
+import { FileWarning, Maximize2, ShieldAlert, Cpu, Briefcase, Globe, MessageSquare, Mail, Fingerprint, Clock, Bomb, EyeOff, Shuffle, Type, Activity, MousePointerClick } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -167,7 +167,7 @@ export default function Home() {
               <Link href="/corruptor" className="flex h-full block outline-none">
                 <HoverCard
                   title="PDF Corruptor"
-                  description="Irreversibly mangles the file header and nullifies structural XREF tables."
+                  description="Make any PDF completely unreadable and impossible to open."
                   icon={<FileWarning size={28} />}
                   isActive={true}
                 />
@@ -176,7 +176,7 @@ export default function Home() {
               <Link href="/spoofer" className="flex h-full block outline-none">
                 <HoverCard 
                   title="Metadata Spoofer" 
-                  description="Wipes or replaces internal document history to create a plausible digital trail."
+                  description="Edit the hidden properties of your PDF — change the author, creation date, and software fingerprint."
                   icon={<Fingerprint size={28} />}
                   isActive={true}
                 />
@@ -185,7 +185,7 @@ export default function Home() {
               <Link href="/timebomb" className="flex h-full block outline-none">
                 <HoverCard 
                   title="PDF Self Destruct" 
-                  description="Sets a self-destruct date. Document becomes unreadable or displays a warning after the deadline."
+                  description="Set an expiry date on any PDF. After the deadline, it shows a warning and refuses to display."
                   icon={<Clock size={28} />}
                   isActive={true}
                 />
@@ -194,7 +194,7 @@ export default function Home() {
               <Link href="/inflator" className="flex h-full block outline-none">
                 <HoverCard
                   title="Payload Data Inflator"
-                  description="Injects massive quantities of invisible null-bytes to inflate file payloads by 500x."
+                  description="Make any small PDF absurdly large. Perfect for crashing upload limits and email attachments."
                   icon={<Maximize2 size={28} />}
                   isActive={true}
                 />
@@ -203,7 +203,7 @@ export default function Home() {
               <Link href="/copykiller" className="flex h-full block outline-none">
                 <HoverCard
                   title="Copy Killer"
-                  description="Makes PDF text impossible to copy — burn it to image or poison it with invisible Unicode homoglyphs."
+                  description="Make text impossible to copy, select, or search. Permanently burn all text layers into flat images."
                   icon={<EyeOff size={28} />}
                   isActive={true}
                 />
@@ -221,7 +221,7 @@ export default function Home() {
               <Link href="/shuffler" className="flex h-full block outline-none">
                 <HoverCard
                   title="The Page Shuffler"
-                  description="Completely randomize the order of the pages. Make a perfectly structured report into an incomprehensible puzzle."
+                  description="Randomly rearrange every page in the document. Turn a structured report into an incomprehensible mess."
                   icon={<Shuffle size={28} />}
                   isActive={true}
                 />
@@ -230,8 +230,17 @@ export default function Home() {
               <Link href="/dyslexia" className="flex h-full block outline-none">
                 <HoverCard
                   title="Dyslexia Inducer"
-                  description="Subtly swap adjacent letters in words throughout the document. Induce madness in your readers."
+                  description="Subtly swap letters in words throughout the PDF. The reader slowly thinks they're losing their mind."
                   icon={<Type size={28} />}
+                  isActive={true}
+                />
+              </Link>
+
+              <Link href="/scrollchoker" className="flex h-full block outline-none">
+                <HoverCard
+                  title="Laggy PDF"
+                  description="Make the PDF incredibly slow and frustrating to scroll through. Invisible junk clogs the rendering engine."
+                  icon={<MousePointerClick size={28} />}
                   isActive={true}
                 />
               </Link>
@@ -278,16 +287,16 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-10 hover:bg-white/10 transition-colors">
                 <Cpu className="text-zinc-300 w-8 h-8 mb-6" />
-                <h4 className="text-xl font-bold text-white mb-4">Zero-Server Architecture</h4>
+                <h4 className="text-xl font-bold text-white mb-4">Your Files Never Leave</h4>
                 <p className="text-zinc-400 leading-relaxed">
-                  Every byte manipulation happens directly within your local client memory via sophisticated ArrayBuffer mutations. Your files never leave your browser, ensuring absolute privacy for your corporate sabotage.
+                  Every tool runs 100% inside your browser. Nothing is uploaded to any server. Your PDF is loaded into memory, modified locally, and returned as a fresh download.
                 </p>
               </div>
               <div className="rounded-3xl border border-brand/20 bg-[#140000]/40 backdrop-blur-md p-10 shadow-[inset_0_0_40px_rgba(230,25,25,0.05)]">
                 <FileWarning className="text-brand w-8 h-8 mb-6" />
-                <h4 className="text-xl font-bold text-white mb-4">Header Dropping</h4>
+                <h4 className="text-xl font-bold text-white mb-4">Plausible Deniability</h4>
                 <p className="text-zinc-400 leading-relaxed">
-                  We don't just break the PDF format—we systematically target the `%PDF-` magic bytes and XREF pointers, tricking any Adobe or Preview software into catastrophic rendering failures.
+                  Our tools produce results that look like genuine accidents — corrupted uploads, oversized attachments, OCR errors, expired links. Nobody will suspect you did it on purpose.
                 </p>
               </div>
             </div>

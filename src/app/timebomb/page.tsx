@@ -1,45 +1,11 @@
 'use client';
 
 import ShapeGrid from '@/components/ShapeGrid';
-import PDCTimeBomb, { type BombIntensity } from '@/components/PDCTimeBomb';
+import PDCTimeBomb from '@/components/PDCTimeBomb';
 import Link from 'next/link';
-import { ArrowLeft, Bomb, Clock, Zap, ShieldAlert, Cpu, Timer, Skull, AlertTriangle, FileWarning } from 'lucide-react';
-import { useState } from 'react';
-
-const BOMB_DETAILS = {
-  'ALERT': {
-    title: 'Ghost Alert',
-    description: 'A harmless warning popup shows up when the deadline hits.',
-    icon: Timer,
-    features: [
-      { id: 'Best Used For', text: 'Reminding recipients that pricing offers or initial proposals have technically expired without destroying the file.' },
-      { id: 'Good To Know', text: 'This is the safest method. It does not close the document, but it creates a psychological limit.' }
-    ]
-  },
-  'LOCKDOWN': {
-    title: 'Hard Lock',
-    description: 'Immediately crashes and forcefully closes the PDF reader.',
-    icon: Skull,
-    features: [
-      { id: 'Crucial Warning', text: 'This is hostile. Ensure you have kept a backup, and use only when absolute information denial is required.' },
-      { id: 'The Impact', text: 'Once the deadline strikes, the file refuses to open. The user will think their reader broke or the file corrupted.' }
-    ]
-  },
-  'SCRAMBLE': {
-    title: 'The Warning',
-    description: 'Shows a persistent and scary text warning to the user upon opening.',
-    icon: AlertTriangle,
-    features: [
-      { id: 'Best Used For', text: 'Keeping the document active but clearly flagging its information as obsolete, staler, or unreliable.' },
-      { id: 'How It Works', text: 'It creates a psychological barrier. Readers can still see the text, but are constantly reminded they shouldn\'t trust it.' }
-    ]
-  }
-};
+import { ArrowLeft, Bomb, ShieldAlert, Cpu, FileWarning } from 'lucide-react';
 
 export default function TimeBombPage() {
-  const [intensity, setIntensity] = useState<BombIntensity>('LOCKDOWN');
-  const details = BOMB_DETAILS[intensity];
-  const Icon = details.icon;
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -72,7 +38,7 @@ export default function TimeBombPage() {
                 <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">PDF SELF DESTRUCT</h1>
               </div>
               <p className="text-zinc-500 text-lg">
-                Inject temporal self-destruction protocols into document DNA.
+                Set an expiry date on any PDF. After the deadline, it shows a warning and refuses to display.
               </p>
             </div>
           </div>
@@ -80,30 +46,35 @@ export default function TimeBombPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <PDCTimeBomb intensity={intensity} setIntensity={setIntensity} />
+            <PDCTimeBomb />
           </div>
-          
+
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <Icon size={80} />
+                <ShieldAlert size={80} />
               </div>
               <ShieldAlert className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">{details.title}</h3>
+              <h3 className="text-xl font-bold text-white mb-2">Self-Destruction</h3>
               <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-                {details.description}
+                Sets a hard expiry date on the document. Once the deadline passes, a warning blocks the reader from viewing it.
               </p>
               
               <div className="space-y-5">
-                {details.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
                       <FileWarning className="text-brand shrink-0" size={18} />
                       <div>
-                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">{feature.id}</p>
-                          <p className="text-zinc-300 text-xs leading-relaxed">{feature.text}</p>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Best Used For</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">Time-sensitive documents or enforcing strict deadlines.</p>
                       </div>
                   </div>
-                ))}
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
+                      <FileWarning className="text-brand shrink-0" size={18} />
+                      <div>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Compatibility</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">Requires a PDF viewer that supports JavaScript (like Adobe Acrobat). Basic web viewers may ignore the script.</p>
+                      </div>
+                  </div>
               </div>
             </div>
 

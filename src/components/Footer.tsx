@@ -36,6 +36,7 @@ export default function Footer() {
               <li><Link href="/steganography" className="hover:text-brand transition-colors">Secret Embedder</Link></li>
               <li><Link href="/shuffler" className="hover:text-brand transition-colors">The Page Shuffler</Link></li>
               <li><Link href="/dyslexia" className="hover:text-brand transition-colors">Dyslexia Inducer</Link></li>
+              <li><Link href="/scrollchoker" className="hover:text-brand transition-colors">Laggy PDF</Link></li>
             </ul>
           </div>
 

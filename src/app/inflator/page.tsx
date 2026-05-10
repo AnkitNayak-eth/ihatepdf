@@ -1,45 +1,11 @@
 'use client';
 
 import ShapeGrid from '@/components/ShapeGrid';
-import PayloadInflator, { type InflationMode } from '@/components/PayloadInflator';
+import PayloadInflator from '@/components/PayloadInflator';
 import Link from 'next/link';
-import { ArrowLeft, Maximize2, Zap, ShieldCheck, Database, LayoutGrid, Box, FileWarning, Cpu } from 'lucide-react';
-import { useState } from 'react';
-
-const INFLATOR_DETAILS = {
-  'SILENT': {
-    title: 'Silent Bloat',
-    description: 'Adds invisible, empty data to organically expand the file size.',
-    icon: Database,
-    features: [
-      { id: 'Best Used For', text: 'Clean expansion that avoids visual bugs and looks perfectly normal when inspected closely.' },
-      { id: 'How It Works', text: 'The payload is securely padded with null bytes, bypassing size-checking thresholds quietly.' }
-    ]
-  },
-  'METADATA': {
-    title: 'Meta Flood',
-    description: 'Saturates hidden document properties with massive amounts of junk text.',
-    icon: LayoutGrid,
-    features: [
-      { id: 'Good To Know', text: 'Does not touch the structural data of the PDF, only the "about" sections that nobody reads.' },
-      { id: 'The Impact', text: 'Can easily balloon a document to gigabytes in size while maintaining standard readability.' }
-    ]
-  },
-  'STREAM': {
-    title: 'Stream Pad',
-    description: 'Injects padding directly inside the actual core data objects of the PDF.',
-    icon: Box,
-    features: [
-      { id: 'The Impact', text: 'Very difficult for scanning software to reverse-engineer. Often stalls or crashes automated analysis tools that try to read it.' },
-      { id: 'Crucial Warning', text: 'May corrupt some older, extremely strict PDF viewers due to the dense padding.' }
-    ]
-  }
-};
+import { ArrowLeft, Maximize2, Database, LayoutGrid, FileWarning, Cpu } from 'lucide-react';
 
 export default function InflatorPage() {
-  const [mode, setMode] = useState<InflationMode>('SILENT');
-  const details = INFLATOR_DETAILS[mode];
-  const Icon = details.icon;
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -80,30 +46,35 @@ export default function InflatorPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <PayloadInflator mode={mode} setMode={setMode} />
+            <PayloadInflator />
           </div>
           
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <Icon size={80} />
+                <Database size={80} />
               </div>
               <LayoutGrid className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">{details.title}</h3>
+              <h3 className="text-xl font-bold text-white mb-2">Massive File Size</h3>
               <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-                {details.description}
+                Adds invisible padding to expand the file size dramatically, making it impossible to email or upload.
               </p>
               
               <div className="space-y-5">
-                {details.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
                       <FileWarning className="text-brand shrink-0" size={18} />
                       <div>
-                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">{feature.id}</p>
-                          <p className="text-zinc-300 text-xs leading-relaxed">{feature.text}</p>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Best Used For</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">Bypassing upload portals with strict "maximum 10MB" limitations by making your file 1GB.</p>
                       </div>
                   </div>
-                ))}
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
+                      <FileWarning className="text-brand shrink-0" size={18} />
+                      <div>
+                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">The Excuse</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">"The file is too large to attach, I guess my images were too high resolution. Want me to try compressing it later?"</p>
+                      </div>
+                  </div>
               </div>
             </div>
 

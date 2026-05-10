@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FileUp, Maximize2, RefreshCw, Layers, Zap, ShieldCheck, Database, LayoutGrid, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export type InflationMode = 'SILENT' | 'METADATA' | 'STREAM';
-
 const INFLATION_PRESETS = [
   { label: '50MB', value: 50 },
   { label: '100MB', value: 100 },
@@ -15,22 +13,7 @@ const INFLATION_PRESETS = [
   { label: '1GB', value: 1024 },
 ];
 
-const MODES = [
-  { id: 'SILENT', label: 'Silent Bloat', desc: 'Raw null-byte injection.', icon: <Database size={14} />, help: 'Cleanest expansion, stays hidden in hex editors.' },
-  { id: 'METADATA', label: 'Meta Flood', desc: 'Saturate XMP streams.', icon: <LayoutGrid size={14} />, help: 'Expands metadata fields with massive junk text.' },
-  { id: 'STREAM', label: 'Stream Pad', desc: 'Internal object padding.', icon: <Box size={14} />, help: 'Injects padding inside PDF data objects.' },
-] as const;
-
-interface PayloadInflatorProps {
-  mode?: InflationMode;
-  setMode?: (mode: InflationMode) => void;
-}
-
-export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: PayloadInflatorProps = {}) {
-  const [intMode, setIntMode] = useState<InflationMode>('SILENT');
-  const mode = extMode || intMode;
-  const setMode = extSetMode || setIntMode;
-
+export default function PayloadInflator() {
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [inflating, setInflating] = useState(false);
@@ -97,7 +80,7 @@ export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: 
               <h2 className="text-3xl font-black text-white mb-2 flex items-center justify-center gap-3">
                 <Maximize2 className="text-brand w-8 h-8" /> PAYLOAD INFLATOR
               </h2>
-              <p className="text-zinc-500">Artificially expand document volumes to bypass processing systems.</p>
+              <p className="text-zinc-500">Make any small PDF absurdly large. Perfect for crashing upload limits and email attachments.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
@@ -130,31 +113,7 @@ export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: 
               {/* Right Column: Controls */}
               <div className="bg-white/5 rounded-2xl p-6 space-y-6 border border-white/5">
                 <div className="space-y-4">
-                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Inflation Vector</label>
-                    <div className="grid grid-cols-1 gap-2.5">
-                        {MODES.map((m) => (
-                            <button 
-                                key={m.id}
-                                onClick={() => setMode(m.id as InflationMode)}
-                                className={cn(
-                                    "flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all",
-                                    mode === m.id 
-                                        ? "bg-brand/10 border-brand/50 ring-1 ring-brand/30" 
-                                        : "bg-white/5 border-white/10 hover:border-white/20"
-                                )}
-                            >
-                                <div className={cn("p-2 rounded-lg shrink-0", mode === m.id ? "bg-brand text-white" : "bg-white/10 text-zinc-400")}>{m.icon}</div>
-                                <div>
-                                    <span className={cn("text-xs font-black uppercase block", mode === m.id ? "text-white" : "text-zinc-500")}>{m.label}</span>
-                                    <p className="text-[9px] text-zinc-500 leading-tight">{m.desc}</p>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="space-y-4">
-                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Expansion Magnitude</label>
+                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Target File Size</label>
                     <div className="grid grid-cols-5 gap-2">
                         {INFLATION_PRESETS.map((p) => (
                             <button
@@ -189,7 +148,7 @@ export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: 
                 ) : (
                   <>
                     <Layers className="h-6 w-6" />
-                    Execute Inflation
+                    Inflate PDF
                   </>
                 )}
               </div>
@@ -200,17 +159,13 @@ export default function PayloadInflator({ mode: extMode, setMode: extSetMode }: 
              <div className="w-20 h-20 bg-brand/20 rounded-full flex items-center justify-center mb-8 border border-brand/50 shadow-[0_0_40px_rgba(230,25,25,0.3)]">
               <Maximize2 size={40} className="text-brand" />
             </div>
-            <h3 className="text-4xl font-black mb-4 uppercase italic">Payload Injected</h3>
-            <p className="text-zinc-400 mb-10 max-w-sm mx-auto">The document now carries the target volume. It is statistically "too large" for standard processing.</p>
+            <h3 className="text-4xl font-black mb-4 uppercase italic">PDF Inflated</h3>
+            <p className="text-zinc-400 mb-10 max-w-sm mx-auto">Your tiny PDF is now massive. It will clog inboxes, crash uploaders, and waste everyone's bandwidth.</p>
             
-            <div className="grid grid-cols-2 gap-4 w-full max-w-md mb-8 bg-white/5 border border-white/10 p-4 rounded-2xl">
+            <div className="grid grid-cols-1 gap-4 w-full max-w-md mb-8 bg-white/5 border border-white/10 p-4 rounded-2xl">
                 <div className="text-left">
                     <p className="text-[10px] text-zinc-500 uppercase font-black">Final Size</p>
                     <p className="text-xl font-black">{targetSizeMB >= 1024 ? '1.0 GB' : `${targetSizeMB} MB`}</p>
-                </div>
-                <div className="text-left">
-                    <p className="text-[10px] text-zinc-500 uppercase font-black">Method</p>
-                    <p className="text-xl font-black italic uppercase">{mode === 'SILENT' ? 'NULL' : mode}</p>
                 </div>
             </div>
 

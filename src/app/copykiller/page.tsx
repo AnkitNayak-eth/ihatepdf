@@ -1,36 +1,11 @@
 'use client';
 
 import ShapeGrid from '@/components/ShapeGrid';
-import CopyKiller, { type Mode } from '@/components/CopyKiller';
+import CopyKiller from '@/components/CopyKiller';
 import Link from 'next/link';
-import { ArrowLeft, EyeOff, ShieldAlert, AlertCircle, FileWarning, Type, Image, Cpu } from 'lucide-react';
-import { useState } from 'react';
-
-const KILLER_DETAILS = {
-  'IMAGE_BURN': {
-    title: 'Image Burn',
-    description: 'Turns all text into flat, unselectable pictures.',
-    icon: Image,
-    features: [
-      { id: 'Best Used For', text: 'Absolute copy protection. Zero actual text remains, making traditional OCR and copy tools useless.' },
-      { id: 'How It Works', text: 'The document is cleanly flattened. They can look, but they cannot touch or extract the letters.' }
-    ]
-  },
-  'UNICODE_POISON': {
-    title: 'Unicode Poison',
-    description: 'Swaps normal letters with visually identical characters from other languages.',
-    icon: Type,
-    features: [
-      { id: 'How It Works', text: 'It looks perfectly normal to read on-screen, but copies and pastes as completely unintelligible garbage.' },
-      { id: 'The Impact', text: 'Maximum deception. Victims won\'t realize the text is protected until they try to paste it.' }
-    ]
-  }
-};
+import { ArrowLeft, EyeOff, ShieldAlert, FileWarning, Cpu, Image } from 'lucide-react';
 
 export default function CopyKillerPage() {
-  const [mode, setMode] = useState<Mode>('IMAGE_BURN');
-  const details = KILLER_DETAILS[mode];
-  const Icon = details.icon;
   return (
     <>
       <div className="fixed inset-0 z-[-2]">
@@ -63,7 +38,7 @@ export default function CopyKillerPage() {
                 <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">COPY KILLER</h1>
               </div>
               <p className="text-zinc-500 text-lg">
-                Eliminate the ability to copy-paste text from any PDF document.
+                Make your PDF text impossible to copy, select, or search.
               </p>
             </div>
           </div>
@@ -71,30 +46,35 @@ export default function CopyKillerPage() {
 
         <div className="w-full max-w-7xl grid grid-cols-1 xl:grid-cols-3 gap-12">
           <div className="xl:col-span-2">
-            <CopyKiller mode={mode} setMode={setMode} />
+            <CopyKiller />
           </div>
 
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <Icon size={80} />
+                <Image size={80} />
               </div>
-              <AlertCircle className="text-brand mb-4 h-8 w-8" />
-              <h3 className="text-xl font-bold text-white mb-2">{details.title}</h3>
+              <ShieldAlert className="text-brand mb-4 h-8 w-8" />
+              <h3 className="text-xl font-bold text-white mb-2">The Burn Protocol</h3>
               <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-                {details.description}
+                This utility uses "Image Burning" to convert every page of your PDF into a high-fidelity raster image. The result looks identical to the original but contains absolutely zero selectable text.
               </p>
 
               <div className="space-y-5">
-                {details.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
-                      <FileWarning className="text-brand shrink-0" size={18} />
-                      <div>
-                          <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">{feature.id}</p>
-                          <p className="text-zinc-300 text-xs leading-relaxed">{feature.text}</p>
-                      </div>
+                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
+                  <FileWarning className="text-brand shrink-0" size={18} />
+                  <div>
+                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Select Proof</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">By converting text to images, you break all standard selection and OCR tools used by common readers.</p>
                   </div>
-                ))}
+                </div>
+                <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
+                  <FileWarning className="text-brand shrink-0" size={18} />
+                  <div>
+                    <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Visual Integrity</p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">Maintain the exact look, layout, and fonts of your document while stripping away the data layer.</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -105,15 +85,15 @@ export default function CopyKillerPage() {
                 </div>
                 <div className="space-y-6">
                     <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Page Rasterization</p>
+                        <p className="text-xs font-black text-white uppercase mb-2">Rasterization</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            Image Burn uses pdf.js to render every page to a canvas at your chosen DPI, then re-assembles the raster images into a brand new PDF with zero selectable text layers.
+                            Each page is rendered to an HTML5 canvas at high resolution, then re-embedded into a new PDF as a full-page image.
                         </p>
                     </div>
                     <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Homoglyph Mapping</p>
+                        <p className="text-xs font-black text-white uppercase mb-2">Metadata Stripping</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            Unicode Poison swaps Latin characters with visually identical Cyrillic and Greek codepoints directly inside the PDF's text streams. The result passes visual inspection but fails every copy-paste and search operation.
+                            The process effectively wipes all hidden metadata and text mapping tables from the original file.
                         </p>
                     </div>
                 </div>

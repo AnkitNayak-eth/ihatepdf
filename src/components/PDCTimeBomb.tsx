@@ -6,24 +6,9 @@ import { FileUp, Clock, AlertTriangle, RefreshCw, Zap, ShieldAlert, Timer, Bomb,
 import { cn } from '@/lib/utils';
 import { PDFDocument } from 'pdf-lib';
 
-export type BombIntensity = 'ALERT' | 'LOCKDOWN' | 'SCRAMBLE';
+const EXPIRY_SCRIPT = (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert({ cMsg: "This document has expired and can no longer be viewed. Please contact the sender for a new copy.", cTitle: "Document Expired", nIcon: 0, nType: 0 }); }`;
 
-const INTENSITIES = [
-  { id: 'ALERT', label: 'Ghost Alert', desc: 'Menacing popup notification.', icon: <Timer size={14} />, script: (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert({ cMsg: "ACCESS EXPIRED: This document temporal footprint has reached its limit. Access is now restricted.", cTitle: "iHatePDF: TEMPORAL SABOTAGE", nIcon: 0, nType: 0 }); }` },
-  { id: 'LOCKDOWN', label: 'Hard Lock', desc: 'Closes the reader immediately.', icon: <Skull size={14} />, script: (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert("ACCESS DENIED: Deadline exceeded."); this.closeDoc(true); }` },
-  { id: 'SCRAMBLE', label: 'The Warning', desc: 'Informative expiry warning.', icon: <AlertTriangle size={14} />, script: (date: string) => `var now = new Date(); var exp = new Date("${date}"); if (now > exp) { app.alert("WARNING: This document is stale. Information contained within is no longer valid."); }` },
-] as const;
-
-interface PDCTimeBombProps {
-  intensity?: BombIntensity;
-  setIntensity?: (intensity: BombIntensity) => void;
-}
-
-export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: extSetIntensity }: PDCTimeBombProps = {}) {
-  const [intIntensity, setIntIntensity] = useState<BombIntensity>('ALERT');
-  const intensity = extIntensity || intIntensity;
-  const setIntensity = extSetIntensity || setIntIntensity;
-
+export default function PDCTimeBomb() {
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [arming, setArming] = useState(false);
@@ -49,15 +34,11 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
       const buffer = await file.arrayBuffer();
       const pdfDoc = await PDFDocument.load(buffer);
       
-      const selectedInt = INTENSITIES.find(i => i.id === intensity);
-      if (selectedInt) {
-          const script = selectedInt.script(new Date(expiryDate).toISOString());
-          // Inject as a document-level JavaScript
-          pdfDoc.addJavaScript('timebomb', script);
-      }
+      const script = EXPIRY_SCRIPT(new Date(expiryDate).toISOString());
+      pdfDoc.addJavaScript('timebomb', script);
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+      const blob = new Blob([pdfBytes.buffer as any], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       
       setTimeout(() => {
@@ -66,7 +47,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
       }, 1500);
     } catch (err) {
       console.error(err);
-      alert("Arming failed. PDF may have protected Catalog dictionary.");
+      alert("Failed to set expiry. The PDF may be protected.");
       setArming(false);
     }
   };
@@ -82,7 +63,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
               <h2 className="text-3xl font-black text-white mb-2 flex items-center justify-center gap-3 italic">
                 <Bomb className="text-brand w-8 h-8" /> PDF SELF DESTRUCT
               </h2>
-              <p className="text-zinc-500">Inject temporal self-destruction protocols into document DNA.</p>
+              <p className="text-zinc-500">Set an expiry date on any PDF. After the deadline, it shows a warning and refuses to display.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
@@ -107,10 +88,10 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
 
                 <div className="bg-brand/5 border border-brand/20 rounded-2xl p-6">
                   <div className="flex items-center gap-2 text-brand font-bold mb-3">
-                    <ShieldAlert size={18} /> Temporal Protocol
+                    <ShieldAlert size={18} /> How It Works
                   </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed italic">
-                    Bake a system-clock check into the PDF. When the deadline hits, the "Payload" executes automatically. Best used for high-pressure negotiations.
+                  <p className="text-zinc-400 text-sm leading-relaxed">
+                    Embeds a hidden date check inside the PDF. Every time someone opens it, the file silently compares the current date against your deadline. Once it expires, a popup blocks the reader.
                   </p>
                 </div>
               </div>
@@ -118,7 +99,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
               <div className="bg-white/5 rounded-2xl p-6 space-y-6 border border-white/5 flex flex-col justify-between">
                 <div className="space-y-6">
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Self-Destruction Deadline</label>
+                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Expiry Date & Time</label>
                     <input 
                       type="datetime-local" 
                       value={expiryDate} 
@@ -127,28 +108,10 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
                     />
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block">Payload Intensity</label>
-                    <div className="grid grid-cols-1 gap-2.5">
-                        {INTENSITIES.map((i) => (
-                            <button 
-                                key={i.id}
-                                onClick={() => setIntensity(i.id)}
-                                className={cn(
-                                    "flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all",
-                                    intensity === i.id 
-                                        ? "bg-brand/10 border-brand/50 ring-1 ring-brand/30" 
-                                        : "bg-white/5 border-white/10 hover:border-white/20"
-                                )}
-                            >
-                                <div className={cn("p-2 rounded-lg shrink-0", intensity === i.id ? "bg-brand text-white" : "bg-white/10 text-zinc-400")}>{i.icon}</div>
-                                <div>
-                                    <span className={cn("text-xs font-black uppercase block", intensity === i.id ? "text-white" : "text-zinc-500")}>{i.label}</span>
-                                    <p className="text-[9px] text-zinc-500 leading-tight">{i.desc}</p>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/5">
+                    <p className="text-[10px] text-zinc-400 leading-relaxed">
+                      ⚡ After this date, the PDF will display an "expired" warning every time someone tries to open it. Works best in Adobe Acrobat and other readers that support JavaScript.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -168,7 +131,7 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
                 ) : (
                   <>
                     <Zap className="h-6 w-6" />
-                    Arm Temporal Payload
+                    Set Expiry Date
                   </>
                 )}
               </div>
@@ -179,17 +142,13 @@ export default function PDCTimeBomb({ intensity: extIntensity, setIntensity: ext
             <div className="w-20 h-20 bg-brand/20 rounded-full flex items-center justify-center mb-8 border border-brand/50 shadow-[0_0_40px_rgba(230,25,25,0.3)]">
               <Skull size={40} className="text-brand" />
             </div>
-            <h3 className="text-4xl font-black text-white mb-4 uppercase italic tracking-tighter">Payload Primed</h3>
-            <p className="text-zinc-400 mb-10 max-w-sm mx-auto">The document now carries the temporal self-destruct instructions. It will trigger at the specified deadline.</p>
+            <h3 className="text-4xl font-black text-white mb-4 uppercase italic tracking-tighter">Expiry Date Set</h3>
+            <p className="text-zinc-400 mb-10 max-w-sm mx-auto">The document will now show an expiry warning after the deadline passes.</p>
             
-            <div className="grid grid-cols-2 gap-4 w-full max-w-md mb-8 bg-white/5 border border-white/10 p-4 rounded-2xl">
+            <div className="grid grid-cols-1 gap-4 w-full max-w-md mb-8 bg-white/5 border border-white/10 p-4 rounded-2xl">
                 <div className="text-left">
-                    <p className="text-[10px] text-zinc-500 uppercase font-black">Expiry</p>
+                    <p className="text-[10px] text-zinc-500 uppercase font-black">Expires On</p>
                     <p className="text-sm font-black">{new Date(expiryDate).toLocaleString()}</p>
-                </div>
-                <div className="text-left">
-                    <p className="text-[10px] text-zinc-500 uppercase font-black">Mode</p>
-                    <p className="text-xl font-black italic uppercase text-brand">{intensity}</p>
                 </div>
             </div>
 

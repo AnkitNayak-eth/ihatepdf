@@ -2,98 +2,33 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileDown, RefreshCw, Terminal, Type, Zap } from 'lucide-react';
+import { FileDown, RefreshCw, Terminal, Activity, MousePointerClick, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-async function initPdfJs() {
-  const pdfjsLib = await import('pdfjs-dist');
-  // Disable worker — use main-thread fallback.
-  // The CDN doesn't have v5.x worker files, and this works fine for our use case.
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
-  return pdfjsLib;
-}
+const FILLER_SENTENCES = [
+  'The quarterly earnings report exceeded all projected benchmarks for the fiscal year.',
+  'Please review the attached compliance documentation before the deadline.',
+  'All personnel are required to submit their timesheets by end of business Friday.',
+  'The committee has approved the revised budget allocation for Q3 operations.',
+  'Confidential: This document contains proprietary information not for distribution.',
+  'As per our previous discussion, the merger timeline has been accelerated.',
+  'The board of directors has unanimously approved the strategic restructuring plan.',
+  'Refer to Appendix B for the complete breakdown of operational expenditures.',
+  'This memorandum supersedes all prior communications regarding the project scope.',
+  'Final approval pending review by the legal department and external auditors.',
+  'The infrastructure assessment revealed critical vulnerabilities in the network architecture.',
+  'Stakeholder engagement metrics indicate a significant improvement over last quarter.',
+  'All intellectual property rights are reserved under applicable international treaties.',
+  'The vendor contract renewal includes updated service level agreement terms.',
+  'Environmental impact assessment results are summarized in the following sections.',
+  'Risk mitigation strategies have been implemented across all operational divisions.',
+  'The performance benchmarking data correlates with industry standard methodologies.',
+  'Regulatory compliance requires immediate attention to the outlined action items.',
+  'Cross-functional team collaboration has yielded measurable productivity improvements.',
+  'The due diligence process has identified several areas requiring further investigation.',
+];
 
-/**
- * Apply extreme "dyslexia" distortion to a canvas.
- * Multi-layer chaos: blur, ghost overlays, strip displacement, vertical squish.
- */
-function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasElement {
-  const w = sourceCanvas.width;
-  const h = sourceCanvas.height;
-
-  const destCanvas = document.createElement('canvas');
-  destCanvas.width = w;
-  destCanvas.height = h;
-  const ctx = destCanvas.getContext('2d')!;
-
-  // 1. White background
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0, 0, w, h);
-
-  // 2. Draw the base page with a slight blur to soften text
-  ctx.filter = 'blur(0.8px)';
-  ctx.drawImage(sourceCanvas, 0, 0);
-  ctx.filter = 'none';
-
-  // 3. Ghost / double-vision overlays — draw the page again at slight offsets
-  //    with reduced opacity to create overlapping text effect
-  const ghosts = [
-    { x: 3, y: 1.5, opacity: 0.3 },
-    { x: -2, y: -1, opacity: 0.25 },
-    { x: 1, y: -2, opacity: 0.15 },
-  ];
-  for (const g of ghosts) {
-    ctx.globalAlpha = g.opacity;
-    ctx.drawImage(sourceCanvas, g.x, g.y);
-  }
-  ctx.globalAlpha = 1.0;
-
-  // 4. Horizontal strip displacement — slice the result into thin strips
-  //    and shift each one randomly to create jittery, misaligned text
-  const stripCanvas = document.createElement('canvas');
-  stripCanvas.width = w;
-  stripCanvas.height = h;
-  const stripCtx = stripCanvas.getContext('2d')!;
-  stripCtx.fillStyle = '#FFFFFF';
-  stripCtx.fillRect(0, 0, w, h);
-
-  const stripHeight = 3; // very thin strips = more chaos
-  const maxShiftX = 8;
-  const maxShiftY = 2;
-
-  for (let y = 0; y < h; y += stripHeight) {
-    const sh = Math.min(stripHeight, h - y);
-    const dx = Math.round((Math.random() - 0.5) * 2 * maxShiftX);
-    const dy = Math.round((Math.random() - 0.5) * 2 * maxShiftY);
-
-    // Occasionally squish or stretch a strip vertically to break line spacing
-    const scaleY = Math.random() < 0.15 ? (0.6 + Math.random() * 0.8) : 1;
-
-    stripCtx.drawImage(
-      destCanvas,
-      0, y, w, sh,
-      dx, y + dy, w, sh * scaleY
-    );
-  }
-
-  // 5. Final compositing pass — add a very faint blurred ghost on top
-  const finalCanvas = document.createElement('canvas');
-  finalCanvas.width = w;
-  finalCanvas.height = h;
-  const finalCtx = finalCanvas.getContext('2d')!;
-  finalCtx.drawImage(stripCanvas, 0, 0);
-
-  // Heavy blur ghost overlay for that "can't focus my eyes" feeling
-  finalCtx.filter = 'blur(1.5px)';
-  finalCtx.globalAlpha = 0.2;
-  finalCtx.drawImage(sourceCanvas, 2, -1);
-  finalCtx.filter = 'none';
-  finalCtx.globalAlpha = 1.0;
-
-  return finalCanvas;
-}
-
-export default function PDFDyslexia() {
+export default function PDFScrollChoker() {
   const [file, setFile] = useState<File | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -130,62 +65,58 @@ export default function PDFDyslexia() {
     setLogs([]);
 
     try {
-      const { PDFDocument } = await import('pdf-lib');
-
-      addLog('Loading source document...');
+      const { PDFDocument, rgb, degrees, StandardFonts } = await import('pdf-lib');
+      addLog('Loading target document...');
       const arrayBuffer = await file.arrayBuffer();
       const srcDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-      const srcPages = srcDoc.getPages();
-      const totalPages = srcPages.length;
+      const pages = srcDoc.getPages();
+      const font = await srcDoc.embedFont(StandardFonts.Helvetica);
 
-      addLog(`Found ${totalPages} page(s). Rendering...`);
+      addLog('Injecting maximum chaos protocols...');
 
-      const pdfjsLib = await initPdfJs();
-      const pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      pages.forEach((page, index) => {
+        addLog(`Swamping page ${index + 1}...`);
+        const width = page.getWidth();
+        const height = page.getHeight();
+        
+        // Fixed high intensity (75%)
+        const intensity = 75;
 
-      const newDoc = await PDFDocument.create();
-      const renderScale = 150 / 72; // 150 DPI
-
-      for (let i = 0; i < totalPages; i++) {
-        addLog(`Distorting page ${i + 1}/${totalPages}...`);
-
-        const page = await pdfDoc.getPage(i + 1);
-        const viewport = page.getViewport({ scale: renderScale });
-
-        // Render the page to a canvas
-        const renderCanvas = document.createElement('canvas');
-        renderCanvas.width = Math.floor(viewport.width);
-        renderCanvas.height = Math.floor(viewport.height);
-        const renderCtx = renderCanvas.getContext('2d')!;
-        renderCtx.fillStyle = '#FFFFFF';
-        renderCtx.fillRect(0, 0, renderCanvas.width, renderCanvas.height);
-        await page.render({ canvasContext: renderCtx, viewport } as any).promise;
-
-        // Apply the dyslexia distortion
-        const distortedCanvas = applyDyslexiaDistortion(renderCanvas);
-
-        // Convert distorted canvas to PNG
-        const blob = await new Promise<Blob>((resolve) => {
-          distortedCanvas.toBlob((b) => resolve(b!), 'image/png');
+        // 1. Vector Spaghetti
+        const vectorCount = Math.floor(10000 * (intensity / 100));
+        let path = `M ${Math.random() * width} ${Math.random() * height} `;
+        for (let i = 0; i < vectorCount; i++) {
+          path += `C ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height}, ${Math.random() * width} ${Math.random() * height} `;
+        }
+        page.drawSvgPath(path, {
+          borderColor: rgb(0.5, 0.5, 0.5),
+          borderWidth: 2,
+          opacity: 0.01
         });
-        const imgBytes = new Uint8Array(await blob.arrayBuffer());
 
-        // Embed into the new PDF
-        const img = await newDoc.embedPng(imgBytes);
-        const pageW = srcPages[i].getWidth();
-        const pageH = srcPages[i].getHeight();
-        const newPage = newDoc.addPage([pageW, pageH]);
-        newPage.drawImage(img, { x: 0, y: 0, width: pageW, height: pageH });
-      }
+        // 2. Text Swamp
+        const textCount = Math.floor(8000 * (intensity / 100));
+        for(let i = 0; i < textCount; i++) {
+          page.drawText(FILLER_SENTENCES[Math.floor(Math.random() * FILLER_SENTENCES.length)], {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: 8 + Math.random() * 15,
+            font: font,
+            color: rgb(0,0,0),
+            opacity: 0.01,
+            rotate: degrees(Math.random() * 360)
+          });
+        }
+      });
 
-      addLog('Assembling dyslexic document...');
-      const resultBytes = await newDoc.save();
+      addLog('Rendering sluggish payload...');
+      const resultBytes = await srcDoc.save();
       const resultBlob = new Blob([resultBytes as any], { type: 'application/pdf' });
       const url = URL.createObjectURL(resultBlob);
 
       setResultUrl(url);
       setProcessing(false);
-      addLog('Visual chaos deployed.');
+      addLog('Lag protocols active. Ready to frustrate.');
     } catch (err) {
       console.error(err);
       addLog(`ERROR: ${err instanceof Error ? err.message : 'Unknown error'}`);
@@ -202,9 +133,9 @@ export default function PDFDyslexia() {
           <motion.div key="editor" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8 relative z-10">
             <div className="text-center">
               <h2 className="text-3xl font-black text-white mb-2 flex items-center justify-center gap-3 italic">
-                <Type className="text-brand w-8 h-8" /> DYSLEXIA INDUCER
+                <MousePointerClick className="text-brand w-8 h-8" /> LAGGY PDF
               </h2>
-              <p className="text-zinc-500 max-w-md mx-auto">Makes text jitter, overlap, and become physically painful to read.</p>
+              <p className="text-zinc-500 max-w-md mx-auto">Turn any smooth PDF into a stuttering, frustrating mess with one click.</p>
             </div>
 
             <div className="flex flex-col gap-6">
@@ -221,7 +152,7 @@ export default function PDFDyslexia() {
               >
                 <input type="file" accept=".pdf" className="hidden" ref={fileInputRef} onChange={handleFileSelect} />
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5">
-                  <Type className={cn("h-8 w-8 text-white/20", file ? "text-brand" : "")} />
+                  <MousePointerClick className={cn("h-8 w-8 text-white/20", file ? "text-brand" : "")} />
                 </div>
                 <p className="text-xl font-bold text-white/80">{file ? file.name : "Drop target PDF"}</p>
                 {file && <p className="text-xs text-zinc-600 mt-1">{(file.size / 1024).toFixed(1)} KB</p>}
@@ -229,19 +160,19 @@ export default function PDFDyslexia() {
 
               <div className="bg-black/60 rounded-2xl p-4 border border-white/5 font-mono text-[10px] space-y-1 h-[100px] overflow-hidden">
                 <div className="flex items-center gap-2 text-brand mb-2 border-b border-white/5 pb-1 uppercase font-black tracking-widest text-[9px]">
-                  <Terminal size={10} /> Execution Log
+                  <Terminal size={10} /> Status
                 </div>
                 {logs.length > 0 ? logs.map((log, i) => (
                   <div key={i} className={cn(i === 0 ? "text-white" : "text-zinc-600")}>{`> ${log}`}</div>
                 )) : (
-                  <div className="text-zinc-700 italic">Awaiting target document...</div>
+                  <div className="text-zinc-700 italic">Awaiting target parameters...</div>
                 )}
               </div>
 
               <div className="p-4 rounded-xl bg-brand/5 border border-brand/10 flex items-start gap-3">
                 <Zap className="text-brand shrink-0 mt-0.5" size={14} />
                 <p className="text-[10px] text-zinc-400 leading-relaxed">
-                  Renders each page at high resolution, then slices the image into thin horizontal strips and randomly shifts each one. The result is text that <span className="text-brand font-bold uppercase italic">visually jitters and overlaps</span>, making the document a cognitive nightmare to read.
+                  Injects thousands of invisible rendering obstacles. The document will look perfect but feel incredibly heavy and stuttery. <span className="text-brand font-bold uppercase italic">Maximum lag guaranteed.</span>
                 </p>
               </div>
             </div>
@@ -255,12 +186,12 @@ export default function PDFDyslexia() {
                 {processing ? (
                   <>
                     <RefreshCw className="h-7 w-7 animate-spin" />
-                    Distorting Pages...
+                    Injecting Chaos...
                   </>
                 ) : (
                   <>
-                    <Type className="h-7 w-7" />
-                    Induce Dyslexia Now
+                    <Activity className="h-7 w-7" />
+                    Create Lag Now
                   </>
                 )}
               </div>
@@ -269,18 +200,18 @@ export default function PDFDyslexia() {
         ) : (
           <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center py-8 text-center">
             <div className="w-24 h-24 bg-brand/20 rounded-2xl rotate-3 flex items-center justify-center mb-8 border border-brand/50 shadow-[0_0_50px_rgba(230,25,25,0.4)]">
-              <Type size={48} className="text-brand" />
+              <Activity size={48} className="text-brand animate-pulse" />
             </div>
             <h3 className="text-4xl font-black text-white mb-4 uppercase italic">
-              Madness Inducted
+              Lag Deployed
             </h3>
             <p className="text-zinc-400 mb-10 max-w-md">
-              Every line of text has been sliced and shifted. The document is now physically painful to read.
+              The document is now filled with invisible rendering obstacles. Anyone who opens it will experience extreme frustration.
             </p>
             <div className="flex w-full flex-col sm:flex-row gap-4 max-w-md">
               <a
                 href={resultUrl}
-                download={`gaslit_${file?.name}`}
+                download={`laggy_${file?.name}`}
                 className="flex-[2] py-5 px-8 rounded-2xl bg-white text-black font-black text-xl hover:bg-zinc-200 transition-all flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(255,255,255,0.1)]"
               >
                 <FileDown className="h-6 w-6" />

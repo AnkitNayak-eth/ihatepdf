@@ -38,7 +38,7 @@ export default function DyslexiaPage() {
                 <h1 className="text-4xl font-black text-white tracking-tight uppercase italic underline decoration-brand/30 underline-offset-8">DYSLEXIA INDUCER</h1>
               </div>
               <p className="text-zinc-500 text-lg">
-                Subtly swap adjacent letters in words to induce madness and typographical chaos.
+                Makes text jitter, overlap, and become physically painful to read.
               </p>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function DyslexiaPage() {
               <ShieldAlert className="text-brand mb-4 h-8 w-8" />
               <h3 className="text-xl font-bold text-white mb-2">Dyslexia Inducer</h3>
               <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-                The reader slowly starts to think they are losing their mind or reading a terribly translated document.
+                The reader's eyes will struggle to track each line. Words shimmer, overlap, and refuse to sit still. Maximum cognitive disruption.
               </p>
               
               <div className="space-y-5">
@@ -65,14 +65,14 @@ export default function DyslexiaPage() {
                       <FileWarning className="text-brand shrink-0" size={18} />
                       <div>
                           <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">Best Used For</p>
-                          <p className="text-zinc-300 text-xs leading-relaxed">Ruining the credibility of a document by filling it with seemingly accidental typos.</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">Making a document impossible to read comfortably. The text is technically there but the brain can't process it.</p>
                       </div>
                   </div>
                   <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5 hover:border-brand/30 transition-colors">
                       <FileWarning className="text-brand shrink-0" size={18} />
                       <div>
                           <p className="text-white text-xs font-bold mb-1 uppercase tracking-widest">The Excuse</p>
-                          <p className="text-zinc-300 text-xs leading-relaxed">"I ran it through an OCR scanner, it must have messed up the text recognition."</p>
+                          <p className="text-zinc-300 text-xs leading-relaxed">"The scanner was misaligned. I'll resend a clean copy... eventually."</p>
                       </div>
                   </div>
               </div>
@@ -85,9 +85,9 @@ export default function DyslexiaPage() {
                 </div>
                 <div className="space-y-6">
                     <div>
-                        <p className="text-xs font-black text-white uppercase mb-2">Byte-Level Text Swaps</p>
+                        <p className="text-xs font-black text-white uppercase mb-2">Pixel-Level Strip Displacement</p>
                         <p className="text-zinc-300 text-xs leading-relaxed">
-                            The Gaslighter parses the PDF's uncompressed text streams, targeting specific literal strings to randomly swap adjacent alphabetic characters, effectively creating plausible typos.
+                            Each page is rendered at high resolution, then sliced into thin horizontal strips. Each strip is randomly shifted horizontally and vertically, causing text lines to jitter and overlap.
                         </p>
                     </div>
                     <div>

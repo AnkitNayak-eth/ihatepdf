@@ -72,7 +72,7 @@ export default function PDFShuffler() {
       addLog('Assembling chaotic document...');
       
       const resultBytes = await newDoc.save();
-      const resultBlob = new Blob([resultBytes], { type: 'application/pdf' });
+      const resultBlob = new Blob([resultBytes as any], { type: 'application/pdf' });
       const url = URL.createObjectURL(resultBlob);
 
       setResultUrl(url);
