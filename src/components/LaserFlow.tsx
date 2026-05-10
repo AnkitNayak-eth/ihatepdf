@@ -566,7 +566,7 @@ export const LaserFlow: React.FC<Props> = ({
 
       animate();
 
-      canvas.cleanupPointerEvents = () => {
+      (canvas as any).cleanupPointerEvents = () => {
         canvas.removeEventListener('pointermove', onMove as any);
         canvas.removeEventListener('pointerdown', onMove as any);
         canvas.removeEventListener('pointerenter', onMove as any);
