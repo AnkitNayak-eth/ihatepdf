@@ -233,7 +233,7 @@ export default function MetadataSpoofingTool() {
                 {processing ? (
                   <>
                     <RefreshCw className="h-6 w-6 animate-spin" />
-                    Injecting Plausibility...
+                    Applying Changes...
                   </>
                 ) : (
                   <>

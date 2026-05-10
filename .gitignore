@@ -44,3 +44,12 @@ next-env.d.ts
 AGENTS.md
 CLAUDE.md
 ihatepdf/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

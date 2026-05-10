@@ -7,9 +7,7 @@ import { cn } from '@/lib/utils';
 
 async function initPdfJs() {
   const pdfjsLib = await import('pdfjs-dist');
-  // Disable worker — use main-thread fallback.
-  // The CDN doesn't have v5.x worker files, and this works fine for our use case.
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
   return pdfjsLib;
 }
 
@@ -17,7 +15,9 @@ async function initPdfJs() {
  * Apply extreme "dyslexia" distortion to a canvas.
  * Multi-layer chaos: blur, ghost overlays, strip displacement, vertical squish.
  */
-function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasElement {
+function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement, intensity: number): HTMLCanvasElement {
+  const normalized = intensity / 10;
+  
   const w = sourceCanvas.width;
   const h = sourceCanvas.height;
 
@@ -31,16 +31,17 @@ function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasEle
   ctx.fillRect(0, 0, w, h);
 
   // 2. Draw the base page with a slight blur to soften text
-  ctx.filter = 'blur(0.8px)';
+  ctx.filter = `blur(${0.4 + normalized * 0.6}px)`;
   ctx.drawImage(sourceCanvas, 0, 0);
   ctx.filter = 'none';
 
   // 3. Ghost / double-vision overlays — draw the page again at slight offsets
   //    with reduced opacity to create overlapping text effect
+  const baseOpacity = 0.15 + (normalized * 0.2);
   const ghosts = [
-    { x: 3, y: 1.5, opacity: 0.3 },
-    { x: -2, y: -1, opacity: 0.25 },
-    { x: 1, y: -2, opacity: 0.15 },
+    { x: 3 * normalized * 1.5, y: 1.5 * normalized * 1.5, opacity: baseOpacity },
+    { x: -2 * normalized * 1.5, y: -1 * normalized * 1.5, opacity: baseOpacity * 0.8 },
+    { x: 1 * normalized * 1.5, y: -2 * normalized * 1.5, opacity: baseOpacity * 0.5 },
   ];
   for (const g of ghosts) {
     ctx.globalAlpha = g.opacity;
@@ -57,9 +58,10 @@ function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasEle
   stripCtx.fillStyle = '#FFFFFF';
   stripCtx.fillRect(0, 0, w, h);
 
-  const stripHeight = 3; // very thin strips = more chaos
-  const maxShiftX = 8;
-  const maxShiftY = 2;
+  const stripHeight = Math.max(1, Math.round(6 - (normalized * 5))); // 6 down to 1
+  const maxShiftX = Math.round(2 + (normalized * 10)); // 2 to 12
+  const maxShiftY = Math.round(normalized * 3); // 0 to 3
+  const squishProb = 0.05 + (normalized * 0.15); // 0.05 to 0.2
 
   for (let y = 0; y < h; y += stripHeight) {
     const sh = Math.min(stripHeight, h - y);
@@ -67,7 +69,7 @@ function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasEle
     const dy = Math.round((Math.random() - 0.5) * 2 * maxShiftY);
 
     // Occasionally squish or stretch a strip vertically to break line spacing
-    const scaleY = Math.random() < 0.15 ? (0.6 + Math.random() * 0.8) : 1;
+    const scaleY = Math.random() < squishProb ? (0.6 + Math.random() * 0.8) : 1;
 
     stripCtx.drawImage(
       destCanvas,
@@ -84,9 +86,9 @@ function applyDyslexiaDistortion(sourceCanvas: HTMLCanvasElement): HTMLCanvasEle
   finalCtx.drawImage(stripCanvas, 0, 0);
 
   // Heavy blur ghost overlay for that "can't focus my eyes" feeling
-  finalCtx.filter = 'blur(1.5px)';
-  finalCtx.globalAlpha = 0.2;
-  finalCtx.drawImage(sourceCanvas, 2, -1);
+  finalCtx.filter = `blur(${1 + normalized}px)`;
+  finalCtx.globalAlpha = 0.1 + (normalized * 0.15);
+  finalCtx.drawImage(sourceCanvas, 2 * normalized * 2, -1 * normalized * 2);
   finalCtx.filter = 'none';
   finalCtx.globalAlpha = 1.0;
 
@@ -98,6 +100,7 @@ export default function PDFDyslexia() {
   const [isHovering, setIsHovering] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [intensity, setIntensity] = useState(5);
   const [logs, setLogs] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -141,7 +144,12 @@ export default function PDFDyslexia() {
       addLog(`Found ${totalPages} page(s). Rendering...`);
 
       const pdfjsLib = await initPdfJs();
-      const pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      const pdfDoc = await pdfjsLib.getDocument({ 
+        data: new Uint8Array(arrayBuffer),
+        cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/cmaps/`,
+        cMapPacked: true,
+        standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/standard_fonts/`
+      }).promise;
 
       const newDoc = await PDFDocument.create();
       const renderScale = 150 / 72; // 150 DPI
@@ -162,7 +170,7 @@ export default function PDFDyslexia() {
         await page.render({ canvasContext: renderCtx, viewport } as any).promise;
 
         // Apply the dyslexia distortion
-        const distortedCanvas = applyDyslexiaDistortion(renderCanvas);
+        const distortedCanvas = applyDyslexiaDistortion(renderCanvas, intensity);
 
         // Convert distorted canvas to PNG
         const blob = await new Promise<Blob>((resolve) => {
@@ -236,6 +244,23 @@ export default function PDFDyslexia() {
                 )) : (
                   <div className="text-zinc-700 italic">Awaiting target document...</div>
                 )}
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-end">
+                  <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Severity</label>
+                  <span className="text-xl font-black text-brand italic">{intensity} / 10</span>
+                </div>
+                <input
+                  type="range" min="1" max="10" step="1"
+                  value={intensity}
+                  onChange={(e) => setIntensity(parseInt(e.target.value))}
+                  className="w-full accent-brand h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                />
+                <div className="flex justify-between text-[9px] text-zinc-600 uppercase tracking-widest font-bold">
+                  <span>Mild Nausea</span>
+                  <span>Total Stroke</span>
+                </div>
               </div>
 
               <div className="p-4 rounded-xl bg-brand/5 border border-brand/10 flex items-start gap-3">

@@ -1,6 +1,7 @@
 {
   "name": "ihatepdf",
   "version": "0.1.0",
+  "description": "Hostile productivity suite for PDF destruction.",
   "private": true,
   "scripts": {
     "dev": "next dev",

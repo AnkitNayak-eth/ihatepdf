@@ -7,9 +7,7 @@ import { cn } from '@/lib/utils';
 
 async function initPdfJs() {
   const pdfjsLib = await import('pdfjs-dist');
-  // Disable worker — use main-thread fallback.
-  // The CDN doesn't have v5.x worker files, and this works fine for our use case.
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
   return pdfjsLib;
 }
 
@@ -63,7 +61,12 @@ export default function CopyKiller() {
       addLog(`Found ${totalPages} page(s). Converting text to images...`);
 
       const pdfjsLib = await initPdfJs();
-      const pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      const pdfDoc = await pdfjsLib.getDocument({ 
+        data: new Uint8Array(arrayBuffer),
+        cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/cmaps/`,
+        cMapPacked: true,
+        standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/standard_fonts/`
+      }).promise;
 
       const newDoc = await PDFDocument.create();
       const scale = quality / 72;

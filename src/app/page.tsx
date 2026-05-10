@@ -4,6 +4,7 @@ import LaserFlow from '@/components/LaserFlow';
 import FuzzyText from '@/components/FuzzyText';
 import { FileWarning, Maximize2, ShieldAlert, Cpu, Briefcase, Globe, MessageSquare, Mail, Fingerprint, Clock, Bomb, EyeOff, Shuffle, Type, Activity, MousePointerClick } from 'lucide-react';
 import Link from 'next/link';
+import EvilEye from '@/components/EvilEye';
 
 export default function Home() {
   return (
@@ -174,8 +175,8 @@ export default function Home() {
               </Link>
 
               <Link href="/spoofer" className="flex h-full block outline-none">
-                <HoverCard 
-                  title="Metadata Spoofer" 
+                <HoverCard
+                  title="Metadata Spoofer"
                   description="Edit the hidden properties of your PDF — change the author, creation date, and software fingerprint."
                   icon={<Fingerprint size={28} />}
                   isActive={true}
@@ -183,8 +184,8 @@ export default function Home() {
               </Link>
 
               <Link href="/timebomb" className="flex h-full block outline-none">
-                <HoverCard 
-                  title="PDF Self Destruct" 
+                <HoverCard
+                  title="PDF Self Destruct"
                   description="Set an expiry date on any PDF. After the deadline, it shows a warning and refuses to display."
                   icon={<Clock size={28} />}
                   isActive={true}
@@ -256,14 +257,14 @@ export default function Home() {
               <div className="h-px w-full flex-1 bg-gradient-to-r from-brand/20 to-transparent"></div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl p-12 lg:p-16 relative overflow-hidden group">
+            <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl p-12 lg:p-16 relative overflow-hidden group flex flex-col lg:flex-row items-center gap-12">
               <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
 
-              <div className="relative z-10 lg:w-2/3">
+              <div className="relative z-10 lg:w-3/5">
                 <ShieldAlert className="text-brand w-12 h-12 mb-6" />
-                <h3 className="text-3xl sm:text-5xl font-bold text-white mb-6">Built for plausibility.</h3>
+                <h3 className="text-3xl sm:text-5xl font-bold text-white mb-6">The perfect excuse.</h3>
                 <p className="text-zinc-400 text-lg leading-relaxed mb-6">
-                  Unlike amateurs who simply rename a `.jpg` to `.pdf`—a technique instantly identifiable by any IT department—ihatepdf utilizes cryptographic byte-scrambling. We preserve valid file sizes and convincing metadata while utterly annihilating the payload.
+                  Changing a file extension from .jpg to .pdf is amateur work that any IT department can easily spot. We actually break the PDF from the inside out while keeping the file size and hidden details intact. When someone tries to open it, it looks like a completely genuine, unexplainable tech glitch.
                 </p>
                 <div className="flex items-center gap-4 text-white font-medium">
                   <div className="flex items-center gap-2">
@@ -273,6 +274,21 @@ export default function Home() {
                     <div className="w-2 h-2 rounded-full bg-brand"></div> Client-side Only
                   </div>
                 </div>
+              </div>
+
+              <div className="relative z-10 w-full lg:w-2/5 h-[300px] lg:h-[400px]">
+                <EvilEye
+                  eyeColor="#e61919"
+                  intensity={1.5}
+                  pupilSize={0.6}
+                  irisWidth={0.25}
+                  glowIntensity={0.30}
+                  scale={0.5}
+                  noiseScale={1}
+                  pupilFollow={1}
+                  flameSpeed={1}
+                  backgroundColor="#0a0000"
+                />
               </div>
             </div>
           </section>
@@ -294,9 +310,9 @@ export default function Home() {
               </div>
               <div className="rounded-3xl border border-brand/20 bg-[#140000]/40 backdrop-blur-md p-10 shadow-[inset_0_0_40px_rgba(230,25,25,0.05)]">
                 <FileWarning className="text-brand w-8 h-8 mb-6" />
-                <h4 className="text-xl font-bold text-white mb-4">Plausible Deniability</h4>
+                <h4 className="text-xl font-bold text-white mb-4">Looks Completely Accidental</h4>
                 <p className="text-zinc-400 leading-relaxed">
-                  Our tools produce results that look like genuine accidents — corrupted uploads, oversized attachments, OCR errors, expired links. Nobody will suspect you did it on purpose.
+                  Our tools produce results that look exactly like real computer problems — broken files, files that are too large to send, weird text glitches, or expired links. Nobody will ever suspect you did it on purpose.
                 </p>
               </div>
             </div>
