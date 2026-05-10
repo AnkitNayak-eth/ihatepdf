@@ -4,11 +4,11 @@
 
 IHatePDF is an open-source suite of "hostile productivity" tools designed to legitimately break, obfuscate, and mangle PDF files entirely in the browser. 
 
-## ⚠️ Philosophy
+## Philosophy
 
 Built for fun and because I am bored. This project exists on the boundary of utility and digital sabotage. Every operation produces mathematically valid, yet entirely useless documents to establish the perfect alibi for missed deadlines and bureaucratic filings.
 
-## 🛠 Features
+## Features
 
 - **Metadata Spoofer**: Edit hidden XMP properties and rewrite document history.
 - **PDF Corruptor**: Cryptographic byte-scrambling. Keeps the file size convincing but permanently unreadable.
@@ -19,7 +19,7 @@ Built for fun and because I am bored. This project exists on the boundary of uti
 - **Page Shuffler**: Randomly reorders every page in a structured report.
 - **Laggy PDF**: Injects invisible geometry designed to choke the renderer and stutter scrolling.
 
-## 🏗 Architecture & Tech Stack
+## Architecture & Tech Stack
 
 This project is built for performance and absolute privacy.
 
@@ -32,15 +32,5 @@ This project is built for performance and absolute privacy.
 
 **100% Client-Side:** Everything executes directly in the user's browser. There is no backend. Files never leave the machine.
 
-## 💻 Developer Setup
-
-```bash
-git clone https://github.com/AnkitNayak-eth/ihatepdf.git
-cd ihatepdf
-npm install
-npm run dev
-```
-
----
 
 *Made with hate by Ankit 😈*
