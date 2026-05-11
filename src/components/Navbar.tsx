@@ -10,8 +10,8 @@ export default function Navbar() {
         {/* Left: Logo */}
         <div className="flex items-center pointer-events-auto">
           <Link href="/" className="flex items-center gap-1.5 group outline-none">
-            <span className="text-3xl font-black tracking-tight uppercase font-outfit hidden sm:block">
-              <span className="text-white">I</span><span className="inline-block mx-1 text-4xl group-hover:scale-125 transition-transform duration-300">😈</span><span className="text-brand">PDF</span>
+            <span className="text-2xl sm:text-3xl font-black tracking-tight uppercase font-outfit">
+              <span className="text-white">I</span><span className="inline-block mx-0.5 sm:mx-1 text-3xl sm:text-4xl group-hover:scale-125 transition-transform duration-300">😈</span><span className="text-brand">PDF</span>
             </span>
           </Link>
         </div>
