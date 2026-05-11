@@ -4,6 +4,8 @@
 
 IHatePDF is an open-source suite of "hostile productivity" tools designed to legitimately break, obfuscate, and mangle PDF files entirely in the browser. 
 
+https://github.com/user-attachments/assets/75807b10-61b7-467a-b249-ed49af818452
+
 ## Philosophy
 
 Built for fun and because I am bored. This project exists on the boundary of utility and digital sabotage. Every operation produces mathematically valid, yet entirely useless documents to establish the perfect alibi for missed deadlines and bureaucratic filings.
