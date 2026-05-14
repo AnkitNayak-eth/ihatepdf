@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PayloadInflator from '@/components/PayloadInflator';
 import Link from 'next/link';
 import { ArrowLeft, Maximize2, Database, LayoutGrid, FileWarning, Cpu } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "PDF Payload Inflator — Make PDFs Absurdly Large",
+  description: "Inflate any PDF to massive file sizes. Make small PDFs impossibly large to crash upload limits and email attachments. Free, client-side tool from ihatepdf.",
+  keywords: ["make pdf larger", "increase pdf file size", "pdf inflator", "bloat pdf", "i hate pdf", "pdf too large"],
+  openGraph: {
+    title: "Payload Inflator — i hate pdf",
+    description: "Make any small PDF absurdly large. Perfect for crashing upload limits and email attachments.",
+    url: "https://ihate-pdf.vercel.app/inflator",
+  },
+};
 
 export default function InflatorPage() {
   return (

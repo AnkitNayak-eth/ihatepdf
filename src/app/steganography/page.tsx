@@ -1,7 +1,19 @@
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import Steganography from '@/components/Steganography';
 import Link from 'next/link';
 import { ArrowLeft, ShieldAlert, AlertCircle, Lock, Unlock, Eye, EyeOff, Cpu } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Secret Embedder — Hide Messages Inside PDFs",
+  description: "Hide encrypted secret messages inside any PDF using steganography. AES-256 encryption, completely invisible. Extract with a password. Free tool from ihatepdf.",
+  keywords: ["hide message in pdf", "pdf steganography", "secret message pdf", "embed hidden text pdf", "i hate pdf"],
+  openGraph: {
+    title: "Secret Embedder — i hate pdf",
+    description: "Hide encrypted messages inside any PDF. Extract them with a password — or without.",
+    url: "https://ihate-pdf.vercel.app/steganography",
+  },
+};
 
 export default function SteganographyPage() {
   return (

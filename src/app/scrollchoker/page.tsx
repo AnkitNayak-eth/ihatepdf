@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PDFScrollChoker from '@/components/PDFScrollChoker';
 import Link from 'next/link';
 import { ArrowLeft, MousePointerClick, ShieldAlert, FileWarning, Activity, Cpu } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Laggy PDF — Make PDFs Incredibly Slow",
+  description: "Make any PDF incredibly slow and frustrating to scroll through. Invisible junk clogs the rendering engine. Free client-side tool from ihatepdf.",
+  keywords: ["make pdf slow", "laggy pdf", "pdf performance killer", "slow pdf scroll", "i hate pdf"],
+  openGraph: {
+    title: "Laggy PDF — i hate pdf",
+    description: "Make the PDF incredibly slow and frustrating to scroll through. Invisible junk clogs the rendering engine.",
+    url: "https://ihate-pdf.vercel.app/scrollchoker",
+  },
+};
 
 export default function ScrollChokerPage() {
   return (

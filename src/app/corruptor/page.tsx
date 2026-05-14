@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PDFCorruptor from '@/components/PDFCorruptor';
 import Link from 'next/link';
 import { ArrowLeft, Hammer, ShieldX, Cpu, FileWarning } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "PDF Corruptor — Make Any PDF Unreadable",
+  description: "Corrupt any PDF file instantly in your browser. Make PDFs completely unreadable and impossible to open. Free, client-side, no uploads. The perfect excuse for missing deadlines.",
+  keywords: ["corrupt pdf", "pdf corruptor", "break pdf file", "make pdf unreadable", "i hate pdf", "corrupted pdf generator"],
+  openGraph: {
+    title: "PDF Corruptor — i hate pdf",
+    description: "Make any PDF completely unreadable and impossible to open. 100% client-side, zero uploads.",
+    url: "https://ihate-pdf.vercel.app/corruptor",
+  },
+};
 
 export default function CorruptorPage() {
   return (

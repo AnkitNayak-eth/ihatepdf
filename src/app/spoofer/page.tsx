@@ -1,7 +1,19 @@
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import MetadataSpoofingTool from '@/components/MetadataSpoofingTool';
 import Link from 'next/link';
 import { ArrowLeft, Fingerprint, ShieldAlert, Cpu } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "PDF Metadata Spoofer — Fake Author, Date & Producer",
+  description: "Spoof PDF metadata instantly. Change the author, creation date, and software fingerprint of any PDF. Free, client-side, completely undetectable. From ihatepdf.",
+  keywords: ["pdf metadata editor", "spoof pdf author", "change pdf date", "fake pdf metadata", "i hate pdf", "pdf producer spoofer"],
+  openGraph: {
+    title: "PDF Metadata Spoofer — i hate pdf",
+    description: "Edit the hidden properties of your PDF — change the author, creation date, and software fingerprint.",
+    url: "https://ihate-pdf.vercel.app/spoofer",
+  },
+};
 
 export default function SpooferPage() {
   return (

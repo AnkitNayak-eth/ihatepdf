@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PDFDyslexia from '@/components/PDFDyslexia';
 import Link from 'next/link';
 import { ArrowLeft, Type, ShieldAlert, Cpu, FileWarning } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Dyslexia Inducer — Make PDF Text Unreadable",
+  description: "Make PDF text jitter, overlap, and become physically painful to read. Subtle visual sabotage that looks like a scanner glitch. Free tool from ihatepdf.",
+  keywords: ["make pdf unreadable", "scramble pdf text", "pdf text glitch", "dyslexia inducer pdf", "i hate pdf"],
+  openGraph: {
+    title: "Dyslexia Inducer — i hate pdf",
+    description: "Subtly swap letters in words throughout the PDF. The reader slowly thinks they're losing their mind.",
+    url: "https://ihate-pdf.vercel.app/dyslexia",
+  },
+};
 
 export default function DyslexiaPage() {
   return (

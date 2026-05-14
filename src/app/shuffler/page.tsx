@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PDFShuffler from '@/components/PDFShuffler';
 import Link from 'next/link';
 import { ArrowLeft, Shuffle, ShieldAlert, Cpu, FileWarning } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "PDF Page Shuffler — Randomize Page Order",
+  description: "Randomly rearrange every page in a PDF. Turn structured reports into incomprehensible chaos. Free client-side tool from ihatepdf.",
+  keywords: ["shuffle pdf pages", "randomize pdf page order", "rearrange pdf", "pdf page shuffler", "i hate pdf"],
+  openGraph: {
+    title: "Page Shuffler — i hate pdf",
+    description: "Randomly rearrange every page in the document. Turn a structured report into an incomprehensible mess.",
+    url: "https://ihate-pdf.vercel.app/shuffler",
+  },
+};
 
 export default function ShufflerPage() {
   return (

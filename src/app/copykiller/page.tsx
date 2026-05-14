@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import CopyKiller from '@/components/CopyKiller';
 import Link from 'next/link';
 import { ArrowLeft, EyeOff, ShieldAlert, FileWarning, Cpu, Image } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "Copy Killer — Make PDF Text Uncopyable",
+  description: "Make PDF text impossible to copy, select, or search. Burns all text into flat images while preserving visual fidelity. Free client-side tool from ihatepdf.",
+  keywords: ["prevent pdf copy", "make pdf uncopyable", "disable pdf text selection", "pdf copy protection", "i hate pdf"],
+  openGraph: {
+    title: "Copy Killer — i hate pdf",
+    description: "Make text impossible to copy, select, or search. Permanently burn all text layers into flat images.",
+    url: "https://ihate-pdf.vercel.app/copykiller",
+  },
+};
 
 export default function CopyKillerPage() {
   return (

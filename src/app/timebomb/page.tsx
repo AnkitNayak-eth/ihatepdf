@@ -1,9 +1,19 @@
-'use client';
-
+import type { Metadata } from 'next';
 import ShapeGrid from '@/components/ShapeGrid';
 import PDCTimeBomb from '@/components/PDCTimeBomb';
 import Link from 'next/link';
 import { ArrowLeft, Bomb, ShieldAlert, Cpu, FileWarning } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: "PDF Self Destruct — Set Expiry Dates on PDFs",
+  description: "Set a self-destruct timer on any PDF. After the deadline, it refuses to display. Free client-side tool from ihatepdf — the hostile productivity suite.",
+  keywords: ["pdf self destruct", "pdf expiry date", "time bomb pdf", "pdf auto delete", "i hate pdf"],
+  openGraph: {
+    title: "PDF Self Destruct — i hate pdf",
+    description: "Set an expiry date on any PDF. After the deadline, it shows a warning and refuses to display.",
+    url: "https://ihate-pdf.vercel.app/timebomb",
+  },
+};
 
 export default function TimeBombPage() {
   return (
