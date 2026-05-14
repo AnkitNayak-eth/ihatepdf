@@ -32,6 +32,9 @@ import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ihate-pdf.vercel.app/'),
+  verification: {
+    google: 'google6bce0a8e0e54fdd9',
+  },
   title: {
     default: "i hate pdf | The Hostile Productivity Suite",
     template: "%s | i hate pdf"
